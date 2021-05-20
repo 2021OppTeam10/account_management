@@ -2,7 +2,7 @@
 #include <string>
 #include <utility>
 
-class account {
+class Account {
     unsigned int mAccNum;
     unsigned int mBalance;
     std::string mPerName;
@@ -10,9 +10,8 @@ class account {
     std::pair<int, int> mLoanInfo;
     int mPwd;
 public:
-    virtual int getAccountType();
+    virtual std::string getAccountType();
     virtual void deposit();
-    void transfer();
     void printAccount();
     unsigned int getAccNUM();
     unsigned int getBalance();
