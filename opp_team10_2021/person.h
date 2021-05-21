@@ -12,9 +12,9 @@ public:
 	std:: string getname();
 	virtual void addSavAcc(SavingAccount newACC);
 	virtual void addDepAcc(DepositAccount newACC);
-	virtual void rmAcc(string accNum);
-	SavingAccount& getSavAcc(string accNum);
-	DepositAccount& getDepAcc(string accNum);
+	virtual void rmAcc(std::string accNum);
+	SavingAccount& getSavAcc(std::string accNum);
+	DepositAccount& getDepAcc(std::string accNum);
 	virtual void save();
 	virtual void load();
 };
