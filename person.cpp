@@ -24,24 +24,33 @@ void Person::rmAcc(string accNum) {
 	
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
-			cout << "%s °èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << accNum << endl;
+			cout << "%s ê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤." << accNum << endl;
 			mOwnedSavAcc.erase(mOwnedSavAcc.begin() +i);
 			return;
 		}
 	}
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
-			cout << "%s °èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << accNum << endl;
+			cout << "%s ê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤." << accNum << endl;
 			mOwnedDepAcc.erase(mOwnedDepAcc.begin() + i);
 			return;
 		}
 	}
-	cout << "%s´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << accNum << endl;;
+	cout << "%sëŠ” ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤." << accNum << endl;;
 	return;
 }
 
 Account Person::getAcc(string accNum) {
-	return accNum;
+		for (int i = 0; i < mOwnedSavAcc.size(); i++) {
+		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
+			return mOwnedSavAcc[i];
+		}
+	}
+	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
+		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
+			return mOwnedDepAcc[i];
+		}
+	}
 }
 
 void Person::save() {
