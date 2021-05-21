@@ -34,7 +34,7 @@ void save(T account) {
 
 	cout << "-------------------------------------------------< UPLOAD FILE >-------------------------------------------------" << endl;
 	string uploadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 ./customer/";
-	string uploadBase2 = " cppproj@1.225.217.57:/home/cppproj";
+	string uploadBase2 = " cppproj@1.225.217.57:/home/cppproj/customer/";
 
 	filename = account.getPerName() + ".txt";
 	string upload = uploadBase1 + filename + uploadBase2;
@@ -58,7 +58,7 @@ void load(T account) {
 	is2.close();
 
 	cout << "------------------------------------------------< DONWLOAD FILE >------------------------------------------------" << endl;
-	string downloadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/";
+	string downloadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/";
 	string downloadBase2 = " ./customer/";
 
 	filename = account.getPerName() + ".txt";
