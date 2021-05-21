@@ -13,9 +13,9 @@ public:
     virtual std::string getAccountType();
     virtual void deposit();
     void printAccount();
-    unsigned int getAccNUM();
+    unsigned int getAccNum();
     unsigned int getBalance();
-    std::string getPerNAme();
+    std::string getPerName();
     std::string getBnkName();
     std::pair<int, int> getLoanInfo();
 };
