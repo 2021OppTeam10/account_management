@@ -5,6 +5,7 @@
 #include <utility>
 
 class Account {
+protected:
     std::string mAccNum;
     unsigned int mBalance;
     std::string mPerName;
@@ -12,10 +13,10 @@ class Account {
     std::pair<int, int> mLoanInfo;
     unsigned int mPwd;
 public:
-    Account(std::string accNum, unsigned balance, std::string perName, std::string bnkName, unsigned int pwd);
-    Account(std::string perName, std::string mBnkName, unsigned int pwd);
     virtual std::string getAccountType();
-    virtual void deposit();
+    virtual void deposit(); // 입금
+    virtual void transfer(); // 이체
+    virtual void withdrawal(int amount); // 출금
     void printAccount();
     std::string getAccNum();
     unsigned int getBalance();

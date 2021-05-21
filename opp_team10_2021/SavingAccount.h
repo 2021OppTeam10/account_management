@@ -2,8 +2,9 @@
 #include <string>
 #include "Account.h"
 
-class SavingAccount :public Account {
+class SavingAccount final : public Account {
 public:
-	virtual void deposit() final;
-	virtual std::string getAccountType() final;
+	virtual void deposit() override;
+	virtual void transfer() override;
+	virtual std::string getAccountType() override;
 };

@@ -1,11 +1,12 @@
 #pragma once
 #include <string>
+#include <random>
 #include "Account.h"
 
-class DepositAccount :public Account{
+class DepositAccount final :public Account{
 public:
-	void withdrawal(int amount);
+	DepositAccount(std::string accNum, unsigned balance, std::string perName, std::string bnkName, unsigned int pwd);
+	DepositAccount(std::string perName, std::string bnkName, unsigned int pwd);
 	void getPattern();
-	void transfer();
-	virtual std::string getAccountType() final;
+	virtual std::string getAccountType() override;
 };
