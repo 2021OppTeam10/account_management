@@ -2,6 +2,7 @@
 #define LOAN_RATE 1.5
 #define DEPOSIT_RATE 0.1
 #include <string>
+#include <vector>
 #include <utility>
 
 class Account {
@@ -14,9 +15,8 @@ protected:
     unsigned int mPwd;
 public:
     virtual std::string getAccountType() = 0;
-    virtual void deposit(); // 입금
-    virtual void transfer(); // 이체
-    virtual void withdrawal(); // 출금
+    virtual void deposit(int amount);
+    virtual void withdrawal(int amount);
     void printAccount();
     std::string getAccNum();
     unsigned int getBalance();
