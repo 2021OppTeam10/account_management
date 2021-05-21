@@ -1,1 +1,0 @@
-scp -i ./id_rsa -P 8080 ./test.txt  cppproj@1.225.217.57:/home/cppproj
