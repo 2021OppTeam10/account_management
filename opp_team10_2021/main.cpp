@@ -4,13 +4,15 @@
 * 2. 예금이랑 적금 계좌 생성자 넣기. 단 생성자 내에서 account 생성자 넣기. main에서 account 직접생성 금지.
 * 3. 파일입출력 try-catch
 * 4. 업로드 다운로드 때 오류나면?
+* 5. 대출?
 */
-
+#pragma warning(disable : 4996)
 #include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
 #include <Windows.h>
+#include <ctime>
 #include "person.h"
 #include "DepositAccount.h"
 #include "SavingAccount.h"
@@ -19,9 +21,9 @@ using namespace std;
 
 template <typename T>
 void save(T account) {
-	//string tmp = "md customer";
-	//if (system(tmp.c_str()))
-	//	system("cls");
+	string tmp = "md customer";
+	if (system(tmp.c_str()))
+		system("cls");
 	string filename = account.getPerName();
 	ofstream os("./customer/" + filename + ".txt");
 	ofstream os2("./customer/" + filename + "pw");
@@ -86,7 +88,38 @@ void load(T account) {
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
+void setDate() {
+	string date = "date /T > date.txt";
+	system(date.c_str());
+}
+
+bool getDate() {
+
+	time_t ttime = time(0);
+	tm* local_time = localtime(&ttime);
+	string month = to_string(local_time->tm_mon + 1);
+	if (month.size() == 1) {
+		month.push_back(month[0]);
+		month[0] = '0';
+	}
+	string date = to_string(local_time->tm_year + 1900) + "-" + month + "-" + std::to_string(local_time->tm_mday);
+
+	string savedDate = "";
+	ifstream is("date.txt");
+	getline(is, savedDate);
+	savedDate.pop_back();
+	if (savedDate == date)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 int main() {
+	getDate();
 	DepositAccount newDeposit("배재익", "우리은행", 1234);
 	DepositAccount newDeposit2("나선혁", "신한은행", 2345);
 	SavingAccount newSaving("홍석원", "농협은행", 3456);

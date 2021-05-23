@@ -1,5 +1,6 @@
 #pragma once
 #define LOAN_RATE 1.5
+#define SAVE_RATE 1.0
 #define DEPOSIT_RATE 0.1
 #include <string>
 #include <vector>
