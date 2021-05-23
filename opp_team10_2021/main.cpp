@@ -16,7 +16,6 @@
 
 using namespace std;
 
-#include <locale>
 template <typename T>
 void save(T account) {
 	string filename = account.getPerName();
@@ -32,21 +31,24 @@ void save(T account) {
 	os.close();
 	os2.close();
 
-	cout << "-------------------------------------------------< UPLOAD FILE >-------------------------------------------------" << endl;
 	string uploadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 ./customer/";
 	string uploadBase2 = " cppproj@1.225.217.57:/home/cppproj/customer/";
 
+	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
 	filename = account.getPerName() + ".txt";
 	string upload = uploadBase1 + filename + uploadBase2;
-	cout << ".................................................................................................................";
-	system(upload.c_str());
+	string cmd = "start /MIN " + upload;
+	if (system(cmd.c_str()) == 0) {
+		cout << filename << endl;
+	}
 
 	filename = account.getPerName() + "pw";
 	upload = uploadBase1 + filename + uploadBase2;
-	cout << ".................................................................................................................";
-	system(upload.c_str());
-	cout << "-----------------------------------------------------------------------------------------------------------------" << endl << endl;
-	_wsetlocale(LC_ALL, L"korean");
+	cmd = "start /MIN " + upload;
+	if (system(cmd.c_str()) == 0) {
+		cout << filename << endl;
+	}
+	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
 template <typename T>
@@ -57,21 +59,24 @@ void load(T account) {
 	is.close();
 	is2.close();
 
-	cout << "------------------------------------------------< DONWLOAD FILE >------------------------------------------------" << endl;
 	string downloadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/";
 	string downloadBase2 = " ./customer/";
 
+	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
 	filename = account.getPerName() + ".txt";
 	string download = downloadBase1 + filename + downloadBase2;
-	cout << ".................................................................................................................";
-	system(download.c_str());
+	string cmd = "start /MIN " + download;
+	if (system(cmd.c_str()) == 0) {
+		cout << filename << endl;
+	}
 
 	filename = account.getPerName() + "pw";
 	download = downloadBase1 + filename + downloadBase2;
-	cout << ".................................................................................................................";
-	system(download.c_str());
-	cout << "-----------------------------------------------------------------------------------------------------------------" << endl << endl;
-	_wsetlocale(LC_ALL, L"korean");
+	cmd = "start /MIN " + download;
+	if (system(cmd.c_str()) == 0) {
+		cout << filename << endl;
+	}
+	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
 int main() {
@@ -79,10 +84,6 @@ int main() {
 	DepositAccount newDeposit2("³ª¼±Çõ", "½ÅÇÑÀºÇà", 2345);
 	SavingAccount newSaving("È«¼®¿ø", "³óÇùÀºÇà", 3456);
 	save(newDeposit);
-	save(newDeposit2);
-	save(newSaving);
-	load(newDeposit);
-	load(newDeposit2);
 	load(newSaving);
 
 	newDeposit.deposit(10000);
