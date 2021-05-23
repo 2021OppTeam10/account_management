@@ -3,6 +3,7 @@
 * 1. const, static, & 추가
 * 2. 예금이랑 적금 계좌 생성자 넣기. 단 생성자 내에서 account 생성자 넣기. main에서 account 직접생성 금지.
 * 3. 파일입출력 try-catch
+* 4. 업로드 다운로드 때 오류나면?
 */
 
 #include <iostream>
@@ -18,6 +19,9 @@ using namespace std;
 
 template <typename T>
 void save(T account) {
+	//string tmp = "md customer";
+	//if (system(tmp.c_str()))
+	//	system("cls");
 	string filename = account.getPerName();
 	ofstream os("./customer/" + filename + ".txt");
 	ofstream os2("./customer/" + filename + "pw");
@@ -31,24 +35,26 @@ void save(T account) {
 	os.close();
 	os2.close();
 
-	string uploadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 ./customer/";
+	string uploadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 ./customer";
 	string uploadBase2 = " cppproj@1.225.217.57:/home/cppproj/customer/";
 
 	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
 	filename = account.getPerName() + ".txt";
 	string upload = uploadBase1 + filename + uploadBase2;
-	string cmd = "start /MIN " + upload;
-	if (system(cmd.c_str()) == 0) {
-		cout << filename << endl;
-	}
-
+	string cmd = "start /min /wait " + upload;
+	if (system(cmd.c_str()) == 0)
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
+	else
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
 	filename = account.getPerName() + "pw";
 	upload = uploadBase1 + filename + uploadBase2;
-	cmd = "start /MIN " + upload;
-	if (system(cmd.c_str()) == 0) {
-		cout << filename << endl;
-	}
+	cmd = "start /wait /min " + upload;
+	if (system(cmd.c_str()) == 0)
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
+	else
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
+	system("echo on");
 }
 
 template <typename T>
@@ -65,17 +71,18 @@ void load(T account) {
 	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
 	filename = account.getPerName() + ".txt";
 	string download = downloadBase1 + filename + downloadBase2;
-	string cmd = "start /MIN " + download;
-	if (system(cmd.c_str()) == 0) {
-		cout << filename << endl;
-	}
-
+	string cmd = "start /wait /min " + download;
+	if (system(cmd.c_str()) == 0)
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
+	else
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
 	filename = account.getPerName() + "pw";
 	download = downloadBase1 + filename + downloadBase2;
-	cmd = "start /MIN " + download;
-	if (system(cmd.c_str()) == 0) {
-		cout << filename << endl;
-	}
+	cmd = "start /wait /min " + download;
+	if (system(cmd.c_str()) == 0)
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
+	else
+		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
@@ -84,7 +91,6 @@ int main() {
 	DepositAccount newDeposit2("나선혁", "신한은행", 2345);
 	SavingAccount newSaving("홍석원", "농협은행", 3456);
 	save(newDeposit);
-	load(newSaving);
 
 	newDeposit.deposit(10000);
 	newDeposit.printAccount();
