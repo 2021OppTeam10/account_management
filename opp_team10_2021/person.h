@@ -2,12 +2,13 @@
 #include <vector>
 #include "SavingAccount.h"
 #include "DepositAccount.h"
+#include "LoanAccount.h"
 
 class Person {
 	std::vector<SavingAccount> mOwnedSavAcc;
 	std::vector<DepositAccount> mOwnedDepAcc;
 	std::string mName;
-	Loan loan;
+	LoanAccount loan;
 public:
 	Person(std::string name);
 	std:: string getname();
