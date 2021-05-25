@@ -7,8 +7,9 @@ using namespace std;
 
 void upload() {
 	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
-	string upload = "scp -r -o \"StrictHostKeyChecking no\" -i .\\id_rsa -P 8080 .\\customer\\  cppproj@1.225.217.57:/home/cppproj/";
+	string upload = "scp -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/ 2> nul 1> nul";
 	string cmd = "start /min /wait " + upload;
+	std::locale::global(std::locale("Korean"));
 	if (system(upload.c_str()) == 0)
 		cout << " " << "file" << "\t\t\t\t\t\t     -업로드 완료-" << endl;
 	else
@@ -20,7 +21,7 @@ void download() {
 	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
 	string download = "scp -r -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
 	string cmd = "start /wait /min " + download;
-	if (system(download.c_str()) == 0)
+	if (system(cmd.c_str()) == 0)
 		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
 	else
 		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 실패-" << endl;
@@ -129,13 +130,13 @@ void Person::dailyInterest() {
 void Person::savePer()
 {
 	string tmp = "md customer";
-	if (system(tmp.c_str()))
-		system("cls");
+	//if (system(tmp.c_str()))
+	//	system("cls");
 
-	tmp = "md .\\customer\\";
-	tmp += mName;
-	if (system(tmp.c_str()))
-		system("cls");
+	//tmp = "md .\\customer\\";
+	//tmp += mName;
+	//if (system(tmp.c_str()))
+	//	system("cls");
 
 	for (auto i : mOwnedSavAcc) {
 		saveAcc(i);
@@ -144,6 +145,8 @@ void Person::savePer()
 	for (auto i : mOwnedDepAcc) {
 		saveAcc(i);
 	}
+	tmp = "start /wait /min ssh -o \"StrictHostKeyChecking no\" -i id_rsa -p 8080 cppproj@1.225.217.57 rm -r ./customer/*";
+	system(tmp.c_str());
 	upload();
 }
 
@@ -162,8 +165,6 @@ void Person::saveAcc(T account) {
 	os << account.getBalance() << "\n";
 	os << account.getPerName() << "\n";
 	os << account.getBnkName() << "\n";
-	os << account.getLoanInfo().first << "\n";
-	os << account.getLoanInfo().second << "\n";
 	os2 << account.getPwd() << "\n";
 	os.close();
 	os2.close();

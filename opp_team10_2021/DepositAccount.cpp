@@ -11,7 +11,6 @@ DepositAccount::DepositAccount(std::string accNum, unsigned balance, std::string
 	mPerName = perName;
 	mBnkName = bnkName;
 	mPwd = pwd;
-	mLoanInfo = make_pair(0, 0);
 }
 
 DepositAccount::DepositAccount(string perName, string bnkName, unsigned int pwd)
@@ -20,7 +19,6 @@ DepositAccount::DepositAccount(string perName, string bnkName, unsigned int pwd)
 	mPerName = perName;
 	mBnkName = bnkName;
 	mPwd = pwd;
-	mLoanInfo = make_pair(0, 0);
 	genAccNum();
 }
 

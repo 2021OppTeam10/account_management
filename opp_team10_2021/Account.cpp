@@ -19,9 +19,6 @@ void Account::printAccount() {
 	cout << "계좌번호 : " << mAccNum << endl;
 	cout << "잔액 : " << mBalance << endl;
 	cout << "예금이율 : " << DEPOSIT_RATE << "%" << endl << endl;
-	cout << "대출총액 : " << mLoanInfo.first << endl;
-	cout << "대출잔액 : " << mLoanInfo.second << endl;
-	cout << "대출이율 : " << LOAN_RATE << "%" << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
@@ -48,10 +45,6 @@ string Account::getBnkName() {//은행명
 unsigned int Account::getPwd()
 {
 	return mPwd;
-}
-
-pair<int, int> Account::getLoanInfo() {//대출정보
-	return mLoanInfo;
 }
 
 void Account::genAccNum()

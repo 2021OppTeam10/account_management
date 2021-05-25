@@ -28,11 +28,11 @@ int main() {
 	Person p1("배재익");
 
 	DepositAccount newDeposit("배재익", "우리은행", 1234);
-	DepositAccount newDeposit2("나선혁", "신한은행", 2345);
-	SavingAccount newSaving("홍석원", "농협은행", 3456);
+	//DepositAccount newDeposit2("나선혁", "신한은행", 2345);
+	//SavingAccount newSaving("홍석원", "농협은행", 3456);
 
 	p1.addDepAcc(newDeposit);
-	p1.loadPer();
+	//p1.loadPer();
 	p1.savePer();
 
 	//string name = myWord.getName();

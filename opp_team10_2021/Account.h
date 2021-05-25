@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <utility>
 #include <random>
 #define LOAN_RATE 1.5
 #define SAVE_RATE 1.0
@@ -13,7 +12,6 @@ protected:
     unsigned int mBalance;
     std::string mPerName;
     std::string mBnkName;
-    std::pair<int, int> mLoanInfo;
     unsigned int mPwd;
 public:
     virtual std::string getAccountType() = 0;
@@ -25,6 +23,5 @@ public:
     std::string getPerName();
     std::string getBnkName();
     unsigned int getPwd();
-    std::pair<int, int> getLoanInfo();
     void genAccNum();
 };

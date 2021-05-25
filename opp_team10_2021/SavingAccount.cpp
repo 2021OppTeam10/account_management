@@ -8,7 +8,6 @@ SavingAccount::SavingAccount(string accNum, string sourceAcc, unsigned balance, 
     mPerName = perName;
     mBnkName = bnkName;
     mPwd = pwd;
-    mLoanInfo = make_pair(0, 0);
 }
 
 SavingAccount::SavingAccount(string perName, string bnkName, unsigned int pwd)
@@ -17,7 +16,6 @@ SavingAccount::SavingAccount(string perName, string bnkName, unsigned int pwd)
     mPerName = perName;
     mBnkName = bnkName;
     mPwd = pwd;
-    mLoanInfo = make_pair(0, 0);
     genAccNum();
 }
 
