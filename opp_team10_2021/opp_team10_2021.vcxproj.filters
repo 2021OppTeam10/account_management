@@ -33,6 +33,9 @@
     <ClCompile Include="person.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Word.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DepositAccount.h">
@@ -42,6 +45,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="person.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Word.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

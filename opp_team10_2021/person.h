@@ -15,6 +15,13 @@ public:
 	virtual void rmAcc(std::string accNum);
 	SavingAccount& getSavAcc(std::string accNum);
 	DepositAccount& getDepAcc(std::string accNum);
-	virtual void save();
-	virtual void load();
+	void setDate();
+	bool getDate();
+	void dailySaveInterest(int mBalance);
+	void dailyDepositInterest(int mBalance);
+	void dailyLoanInterest(int mBalance);
+	template<typename T>
+	void save(T account);
+	template<typename T>
+	void load(T account);
 };
