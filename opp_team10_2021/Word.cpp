@@ -5,7 +5,6 @@ using namespace std;
 
 Word::Word()
 {
-
 	std::getline(std::cin, inputString);
 	tokenedString = StringToken(inputString);
 	for (auto i : tokenedString)

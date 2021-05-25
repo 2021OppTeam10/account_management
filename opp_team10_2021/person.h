@@ -9,6 +9,10 @@ class Person {
 	std::vector<DepositAccount> mOwnedDepAcc;
 	std::string mName;
 	LoanAccount loan;
+	template<typename T>
+	void saveAcc(T account);
+	template<typename T>
+	void loadAcc(T account);
 public:
 	Person(std::string name);
 	std:: string getname();
@@ -20,8 +24,6 @@ public:
 	void setDate();
 	bool getDate();
 	void dailyInterest();
-	template<typename T>
-	void save(T account);
-	template<typename T>
-	void load(T account);
+	void savePer();
+	void loadPer();
 };

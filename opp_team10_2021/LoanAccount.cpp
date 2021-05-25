@@ -1,6 +1,11 @@
 #include "LoanAccount.h"
 using namespace std;
 
+LoanAccount::LoanAccount()
+{
+    mAccNum = "NULL";
+}
+
 LoanAccount::LoanAccount(std::string accNum, unsigned balance, std::string perName, std::string bnkName, unsigned int pwd) {
     mAccNum = accNum;
     mBalance = balance;

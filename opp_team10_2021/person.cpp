@@ -5,6 +5,28 @@
 #pragma warning(disable : 4996)
 using namespace std;
 
+void upload() {
+	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
+	string upload = "scp -r -o \"StrictHostKeyChecking no\" -i .\\id_rsa -P 8080 .\\customer\\  cppproj@1.225.217.57:/home/cppproj/";
+	string cmd = "start /min /wait " + upload;
+	if (system(upload.c_str()) == 0)
+		cout << " " << "file" << "\t\t\t\t\t\t     -업로드 완료-" << endl;
+	else
+		cout << " " << "file" << "\t\t\t\t\t\t     -업로드 실패-" << endl;
+	cout << "--------------------------------------------------------------------------" << endl << endl;
+}
+
+void download() {
+	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
+	string download = "scp -r -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
+	string cmd = "start /wait /min " + download;
+	if (system(download.c_str()) == 0)
+		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
+	else
+		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 실패-" << endl;
+	cout << "--------------------------------------------------------------------------" << endl << endl;
+}
+
 string Person::getname() {
 	return mName;
 }
@@ -24,7 +46,6 @@ void Person::addDepAcc(DepositAccount newACC) {
 }
 
 void Person::rmAcc(string accNum) {
-
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
 			cout << "%s 계좌가 해지 되었습니다." << accNum << endl;
@@ -44,7 +65,6 @@ void Person::rmAcc(string accNum) {
 }
 
 SavingAccount& Person::getSavAcc(string accNum) {
-
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
 			return mOwnedSavAcc[i];
@@ -59,74 +79,6 @@ DepositAccount& Person::getDepAcc(string accNum) {
 			return mOwnedDepAcc[i];
 		}
 	}
-}
-
-template <typename T>
-void Person::save(T account) {
-	string tmp = "md customer";
-	if (system(tmp.c_str()))
-		system("cls");
-	string filename = account.getPerName();
-	ofstream os("./customer/" + filename + ".txt");
-	ofstream os2("./customer/" + filename + "pw");
-	os << account.getAccNum() << "\n";
-	os << account.getBalance() << "\n";
-	os << account.getPerName() << "\n";
-	os << account.getBnkName() << "\n";
-	os << account.getLoanInfo().first << "\n";
-	os << account.getLoanInfo().second << "\n";
-	os2 << account.getPwd() << "\n";
-	os.close();
-	os2.close();
-
-	string uploadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 ./customer";
-	string uploadBase2 = " cppproj@1.225.217.57:/home/cppproj/customer/";
-
-	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
-	filename = account.getPerName() + ".txt";
-	string upload = uploadBase1 + filename + uploadBase2;
-	string cmd = "start /min /wait " + upload;
-	if (system(cmd.c_str()) == 0)
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
-	else
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
-	filename = account.getPerName() + "pw";
-	upload = uploadBase1 + filename + uploadBase2;
-	cmd = "start /wait /min " + upload;
-	if (system(cmd.c_str()) == 0)
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
-	else
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
-	cout << "--------------------------------------------------------------------------" << endl << endl;
-	system("echo on");
-}
-template <typename T>
-void Person::load(T account) {
-	string filename = account.getPerName();
-	ifstream is("./customer/" + filename + ".txt");
-	ifstream is2("./customer/" + filename + "pw");
-	is.close();
-	is2.close();
-
-	string downloadBase1 = "scp -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/";
-	string downloadBase2 = " ./customer/";
-
-	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
-	filename = account.getPerName() + ".txt";
-	string download = downloadBase1 + filename + downloadBase2;
-	string cmd = "start /wait /min " + download;
-	if (system(cmd.c_str()) == 0)
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
-	else
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
-	filename = account.getPerName() + "pw";
-	download = downloadBase1 + filename + downloadBase2;
-	cmd = "start /wait /min " + download;
-	if (system(cmd.c_str()) == 0)
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 완료-" << endl;
-	else
-		cout << " " << filename << "\t\t\t\t\t\t     -업로드 실패-" << endl;
-	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
 void Person::setDate()
@@ -160,15 +112,68 @@ bool Person::getDate() {
 	}
 }
 
-void Person::dailyInterest() {//적금이자 적금계좌에 더하기
+void Person::dailyInterest() {
 	if (getDate()) {
 		for (auto i : mOwnedSavAcc) {
-			i.getSourceAcc();
-			i.deposit((SAVE_RATE / 100) * i.getBalance());	//적금
+			int tAmount = (SAVE_RATE / 100) * i.getBalance();
+			getSavAcc(i.getSourceAcc()).withdrawal(tAmount);
+			i.deposit(tAmount);									//적금
 		}
 		for (auto i : mOwnedDepAcc) {
 			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//예금
 		}
 						//대출
 	}
+}
+
+void Person::savePer()
+{
+	string tmp = "md customer";
+	if (system(tmp.c_str()))
+		system("cls");
+
+	tmp = "md .\\customer\\";
+	tmp += mName;
+	if (system(tmp.c_str()))
+		system("cls");
+
+	for (auto i : mOwnedSavAcc) {
+		saveAcc(i);
+	}
+
+	for (auto i : mOwnedDepAcc) {
+		saveAcc(i);
+	}
+	upload();
+}
+
+void Person::loadPer()
+{
+	download();
+}
+
+template<typename T>
+void Person::saveAcc(T account) {
+	string accNum = account.getAccNum();
+
+	ofstream os(".\\customer\\" + mName + "\\" + accNum + ".txt");
+	ofstream os2(".\\customer\\" + mName + "\\" + accNum + "pw");
+	os << account.getAccNum() << "\n";
+	os << account.getBalance() << "\n";
+	os << account.getPerName() << "\n";
+	os << account.getBnkName() << "\n";
+	os << account.getLoanInfo().first << "\n";
+	os << account.getLoanInfo().second << "\n";
+	os2 << account.getPwd() << "\n";
+	os.close();
+	os2.close();
+}
+
+template <typename T>
+void Person::loadAcc(T account) {
+	string accNum = account.getAccNum();
+	ifstream is("./customer/" + accNum + ".txt");
+	ifstream is2("./customer/" + accNum + "pw");
+	is.close();
+	is2.close();
 }
