@@ -49,7 +49,6 @@ unsigned int Account::getPwd()
 
 void Account::genAccNum()
 {
-	string result;
 	random_device rd;
 	mt19937 gen(rd());
 	uniform_int_distribution<int> dis(0, 9);

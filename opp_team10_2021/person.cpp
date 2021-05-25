@@ -7,7 +7,7 @@ using namespace std;
 
 void upload() {
 	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
-	string upload = "scp -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/ 2> nul 1> nul";
+	string upload = "scp -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/";
 	string cmd = "start /min /wait " + upload;
 	std::locale::global(std::locale("Korean"));
 	if (system(upload.c_str()) == 0)
@@ -28,6 +28,17 @@ void download() {
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
+void Person::genPerNum()
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<int> dis(0, 9);
+	for (int i = 0; i < 15; i++)
+	{
+		mPerNum.push_back(dis(gen) + '0');
+	}
+}
+
 string Person::getname() {
 	return mName;
 }
@@ -36,6 +47,7 @@ Person::Person(string name) {
 	mName = name;
 	mOwnedDepAcc;
 	mOwnedSavAcc;
+	genPerNum();
 }
 
 void Person::addSavAcc(SavingAccount newACC) {
@@ -123,20 +135,20 @@ void Person::dailyInterest() {
 		for (auto i : mOwnedDepAcc) {
 			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//예금
 		}
-						//대출
+		//대출
 	}
 }
 
 void Person::savePer()
 {
 	string tmp = "md customer";
-	//if (system(tmp.c_str()))
-	//	system("cls");
+	if (system(tmp.c_str()))
+		system("cls");
 
-	//tmp = "md .\\customer\\";
-	//tmp += mName;
-	//if (system(tmp.c_str()))
-	//	system("cls");
+	tmp = "md .\\customer\\";
+	tmp += mPerNum;
+	if (system(tmp.c_str()))
+		system("cls");
 
 	for (auto i : mOwnedSavAcc) {
 		saveAcc(i);

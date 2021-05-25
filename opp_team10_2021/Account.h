@@ -19,9 +19,9 @@ public:
     virtual void withdrawal(int amount);
     void printAccount();
     std::string getAccNum();
-    unsigned int getBalance();
     std::string getPerName();
     std::string getBnkName();
+    unsigned int getBalance();
     unsigned int getPwd();
     void genAccNum();
 };

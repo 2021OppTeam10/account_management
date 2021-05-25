@@ -25,9 +25,9 @@ int main() {
 
 	vector<Person> cusList; // customer list
 	//Word myWord;
-	Person p1("배재익");
+	Person p1("bae");
 
-	DepositAccount newDeposit("배재익", "우리은행", 1234);
+	DepositAccount newDeposit("bae", "우리은행", 1234);
 	//DepositAccount newDeposit2("나선혁", "신한은행", 2345);
 	//SavingAccount newSaving("홍석원", "농협은행", 3456);
 
