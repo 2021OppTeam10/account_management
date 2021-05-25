@@ -6,7 +6,6 @@
 * 4. 업로드 다운로드 때 오류나면?
 * 5. 클래스 상속 가상함수 프렌즈함수 제네릭함수 파일입력
 */
-#pragma warning(disable : 4996)
 #include <iostream>
 #include <string>
 #include <vector>

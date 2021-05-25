@@ -2,6 +2,10 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <random>
+#define LOAN_RATE 1.5
+#define SAVE_RATE 1.0
+#define DEPOSIT_RATE 0.1
 
 class Account {
 protected:
@@ -22,4 +26,5 @@ public:
     std::string getBnkName();
     unsigned int getPwd();
     std::pair<int, int> getLoanInfo();
+    void genAccNum();
 };

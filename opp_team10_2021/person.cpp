@@ -1,9 +1,8 @@
 #include "person.h"
 #include <iostream>
 #include <fstream>
-#define LOAN_RATE 1.5
-#define SAVE_RATE 1.0
-#define DEPOSIT_RATE 0.1
+
+#pragma warning(disable : 4996)
 using namespace std;
 
 string Person::getname() {
@@ -25,11 +24,11 @@ void Person::addDepAcc(DepositAccount newACC) {
 }
 
 void Person::rmAcc(string accNum) {
-	
+
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
 			cout << "%s 계좌가 해지 되었습니다." << accNum << endl;
-			mOwnedSavAcc.erase(mOwnedSavAcc.begin() +i);
+			mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
 			return;
 		}
 	}
@@ -51,7 +50,7 @@ SavingAccount& Person::getSavAcc(string accNum) {
 			return mOwnedSavAcc[i];
 		}
 	}
-	
+
 }
 DepositAccount& Person::getDepAcc(string accNum) {
 
@@ -161,31 +160,15 @@ bool Person::getDate() {
 	}
 }
 
-void Person::dailySaveInterest(int mBalance) {//적금이자 적금계좌에 더하기
+void Person::dailyInterest() {//적금이자 적금계좌에 더하기
 	if (getDate()) {
-		for (int i = 0; i < mOwnedSavAcc.size(); i++) {
-			mBalance += SAVE_RATE / 100;
+		for (auto i : mOwnedSavAcc) {
+			i.getSourceAcc();
+			i.deposit((SAVE_RATE / 100) * i.getBalance());	//적금
 		}
-		return;
-	}
-}
-
-void Person::dailyDepositInterest(int mBalance) {//예금이자 예금계좌에 더하기
-	if (getDate()) {
-		for (int i = 0; i < mOwnedDepAcc.size(); i++) {
-			mBalance += DEPOSIT_RATE / 100;
-			return;
+		for (auto i : mOwnedDepAcc) {
+			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//예금
 		}
-		return;
-	}
-}
-
-void Person::dailyLoanInterest(int mBalance) {//대출이자 예금계좌에서 빼기
-	if (getDate()) {
-		for (int i = 0; i < mOwnedSavAcc.size(); i++) {//변수 대출로 바꾸기 //아직 적금계좌변수로 돼있음.
-			mBalance -= LOAN_RATE / 100;
-			return;
-		}
-		return;
+						//대출
 	}
 }

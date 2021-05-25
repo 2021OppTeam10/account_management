@@ -1,4 +1,7 @@
 #include "DepositAccount.h"
+#define LOAN_RATE 1.5
+#define SAVE_RATE 1.0
+#define DEPOSIT_RATE 0.1
 
 using namespace std;
 
@@ -18,20 +21,7 @@ DepositAccount::DepositAccount(string perName, string bnkName, unsigned int pwd)
 	mBnkName = bnkName;
 	mPwd = pwd;
 	mLoanInfo = make_pair(0, 0);
-	random_device rd;
-	mt19937 gen(rd());
-	uniform_int_distribution<int> dis(0, 9);
-	for (int i = 0; i < 15; i++)
-	{
-		if (i == 4 || i == 8)
-		{
-			mAccNum.push_back('-');
-		}
-		else
-		{
-			mAccNum.push_back(dis(gen) + '0');
-		}
-	}
+	genAccNum();
 }
 
 void DepositAccount::transfer(SavingAccount& destAcc, int amount) {
@@ -42,11 +32,6 @@ void DepositAccount::transfer(SavingAccount& destAcc, int amount) {
 void DepositAccount::transfer(DepositAccount& destAcc, int amount){
 	this->withdrawal(amount);
 	destAcc.deposit(amount);
-}
-
-void DepositAccount::getPattern()
-{
-
 }
 
 string DepositAccount::getAccountType()

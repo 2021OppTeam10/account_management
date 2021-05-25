@@ -53,3 +53,22 @@ unsigned int Account::getPwd()
 pair<int, int> Account::getLoanInfo() {//대출정보
 	return mLoanInfo;
 }
+
+void Account::genAccNum()
+{
+	string result;
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<int> dis(0, 9);
+	for (int i = 0; i < 15; i++)
+	{
+		if (i == 4 || i == 8)
+		{
+			mAccNum.push_back('-');
+		}
+		else
+		{
+			mAccNum.push_back(dis(gen) + '0');
+		}
+	}
+}

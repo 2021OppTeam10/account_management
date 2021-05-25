@@ -11,6 +11,5 @@ public:
 	DepositAccount(std::string perName, std::string bnkName, unsigned int pwd);
 	void transfer(SavingAccount& destAcc, int amount);
 	void transfer(DepositAccount& destAcc, int amount);
-	void getPattern();
 	virtual std::string getAccountType() override;
 };
