@@ -58,22 +58,51 @@ void Person::addDepAcc(DepositAccount newACC) {
 	mOwnedDepAcc.push_back(newACC);
 }
 
-void Person::rmAcc(string accNum) {
+void Person::rmAcc(string accNum) { // GUI 다듬기~
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
-		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
-			cout << "%s 계좌가 해지 되었습니다." << accNum << endl;
-			mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
-			return;
+		if (mOwnedSavAcc[i].getAccNum().compare(accNum) == 0) {
+			cout << "입금하실 계좌 (취소시 숫자 1) : ";
+			string num;
+			getline(cin, num);
+			if (num == "1") 
+				return;
+			for (int i = 0; i < mOwnedDepAcc.size(); i++) {
+				if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(num) == 0) {
+					mOwnedDepAcc[i].deposit(mOwnedSavAcc[i].getBalance());
+					cout << accNum << "정기적금계좌가 해지 되었습니다."<< endl;
+					mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
+					return;
+				}
+				else {
+					while (1) {
+						cout << "잘못된 계좌번호 입니다." << endl;
+						cout << "입금하실 계좌 (취소시 숫자 1): ";
+						getline(cin, num);
+						if (num == "1")
+							return;
+						for (int i = 0; i < mOwnedDepAcc.size(); i++) {
+							if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(num) == 0) {
+								mOwnedDepAcc[i].deposit(mOwnedSavAcc[i].getBalance());
+								cout << accNum << "  정기적금계좌가 해지 되었습니다."  << endl;
+								mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
+								return;
+							}	
+						}
+						
+					}
+				}
+			}
 		}
 	}
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
-			cout << "%s 계좌가 해지 되었습니다." << accNum << endl;
+			//
+			cout << accNum<< "%s 보통예금계좌가 해지 되었습니다."  << endl;
 			mOwnedDepAcc.erase(mOwnedDepAcc.begin() + i);
 			return;
 		}
 	}
-	cout << "%s는 존재하지 않습니다." << accNum << endl;;
+	cout <<  accNum <<"  계좌는 존재하지 않습니다." << endl;;
 	return;
 }
 
@@ -128,6 +157,10 @@ bool Person::getDate() {
 void Person::dailyInterest() {
 	if (getDate()) {
 		for (auto i : mOwnedSavAcc) {
+			if (i.getsavingmonth() <= 0) {
+				rmAcc(i.getAccNum());
+				break;
+			}
 			int tAmount = (SAVE_RATE / 100) * i.getBalance();
 			getSavAcc(i.getSourceAcc()).withdrawal(tAmount);
 			i.deposit(tAmount);									//적금
