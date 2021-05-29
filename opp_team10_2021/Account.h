@@ -13,16 +13,19 @@ protected:
     std::string mBnkName;
     unsigned int mBalance;
     unsigned int mPwd;
+    int savingmonth;
 public:
     virtual std::string getAccountType() = 0;
     virtual void deposit(int amount);
     virtual void withdrawal(int amount);
+    virtual void dailymonth();
     void printAccount();
     std::string getAccNum();
     std::string getPerName();
     std::string getBnkName();
     unsigned int getBalance();
     unsigned int getPwd();
+    int getsavingmonth();
     void genAccNum();
     bool isCorrect(unsigned int inPwd);
 };
