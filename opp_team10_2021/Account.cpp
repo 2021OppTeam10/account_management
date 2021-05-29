@@ -10,34 +10,37 @@ void Account::deposit(int amount) {
 void Account::withdrawal(int amount) {
 	this->mBalance -= amount;
 }
+void Account::dailymonth() {
+	this->savingmonth--;
+}
 
 void Account::printAccount() {
 	cout << "-----------------------------< ACCOUNT INFO >-----------------------------" << endl;
-	cout << "°èÁÂ Á¾·ù : " << this->getAccountType() << endl;
-	cout << "ÀÌ¸§ : " << mPerName << endl;
-	cout << "ÀºÇà¸í : " << mBnkName << endl;
-	cout << "°èÁÂ¹øÈ£ : " << mAccNum << endl;
-	cout << "ÀÜ¾× : " << mBalance << endl;
-	cout << "¿¹±ÝÀÌÀ² : " << DEPOSIT_RATE << "%" << endl << endl;
+	cout << "ê³„ì¢Œ ì¢…ë¥˜ : " << this->getAccountType() << endl;
+	cout << "ì´ë¦„ : " << mPerName << endl;
+	cout << "ì€í–‰ëª… : " << mBnkName << endl;
+	cout << "ê³„ì¢Œë²ˆí˜¸ : " << mAccNum << endl;
+	cout << "ìž”ì•¡ : " << mBalance << endl;
+	cout << "ì˜ˆê¸ˆì´ìœ¨ : " << DEPOSIT_RATE << "%" << endl << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
-string Account::getAccNum() {//°èÁÂ¹øÈ£
+string Account::getAccNum() {//ê³„ì¢Œë²ˆí˜¸
 
 	return mAccNum;
 }
 
-unsigned int Account::getBalance() {//ÀÜ¾×
+unsigned int Account::getBalance() {//ìž”ì•¡
 
 	return mBalance;
 }
 
-string Account::getPerName() {//»ç¶÷ÀÌ¸§
+string Account::getPerName() {//ì‚¬ëžŒì´ë¦„
 
 	return mPerName;
 }
 
-string Account::getBnkName() {//ÀºÇà¸í
+string Account::getBnkName() {//ì€í–‰ëª…
 
 	return mBnkName;
 }
@@ -45,6 +48,9 @@ string Account::getBnkName() {//ÀºÇà¸í
 unsigned int Account::getPwd()
 {
 	return mPwd;
+}
+int Account::getsavingmonth() {
+	return savingmonth;
 }
 
 void Account::genAccNum()
