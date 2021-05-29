@@ -11,9 +11,9 @@ void upload() {
 	string cmd = "start /min /wait " + upload;
 	std::locale::global(std::locale("Korean"));
 	if (system(upload.c_str()) == 0)
-		cout << " " << "file" << "\t\t\t\t\t\t     -¾÷·Îµå ¿Ï·á-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -ì—…ë¡œë“œ ì™„ë£Œ-" << endl;
 	else
-		cout << " " << "file" << "\t\t\t\t\t\t     -¾÷·Îµå ½ÇÆÐ-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -ì—…ë¡œë“œ ì‹¤íŒ¨-" << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
@@ -22,9 +22,9 @@ void download() {
 	string download = "scp -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
 	string cmd = "start /wait /min " + download;
 	if (system(cmd.c_str()) == 0)
-		cout << " " << "file" << "\t\t\t\t\t\t     -´Ù¿î·Îµå ¿Ï·á-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -ë‹¤ìš´ë¡œë“œ ì™„ë£Œ-" << endl;
 	else
-		cout << " " << "file" << "\t\t\t\t\t\t     -´Ù¿î·Îµå ½ÇÆÐ-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -ë‹¤ìš´ë¡œë“œ ì‹¤íŒ¨-" << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
@@ -61,19 +61,19 @@ void Person::addDepAcc(DepositAccount newACC) {
 void Person::rmAcc(string accNum) {
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
-			cout << "%s °èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << accNum << endl;
+			cout << "%s ê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤." << accNum << endl;
 			mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
 			return;
 		}
 	}
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
-			cout << "%s °èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << accNum << endl;
+			cout << "%s ê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤." << accNum << endl;
 			mOwnedDepAcc.erase(mOwnedDepAcc.begin() + i);
 			return;
 		}
 	}
-	cout << "%s´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << accNum << endl;;
+	cout << "%sëŠ” ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤." << accNum << endl;;
 	return;
 }
 
@@ -130,12 +130,14 @@ void Person::dailyInterest() {
 		for (auto i : mOwnedSavAcc) {
 			int tAmount = (SAVE_RATE / 100) * i.getBalance();
 			getSavAcc(i.getSourceAcc()).withdrawal(tAmount);
-			i.deposit(tAmount);									//Àû±Ý
+			i.deposit(tAmount);									//ì ê¸ˆ
 		}
 		for (auto i : mOwnedDepAcc) {
-			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//¿¹±Ý
+			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//ì˜ˆê¸ˆ
 		}
-		//´ëÃâ
+		for (auto i : loan) {
+			i.deposit((LOAN_RATE / 100) * i.getBalance());
+		}//ëŒ€ì¶œ
 	}
 }
 
@@ -184,7 +186,7 @@ void Person::loadPer(int perOrder){
 	string tmp;
 	getline(is1, tmp);
 	cout << tmp;
-	is1.close();//////////////////////////////////////////////¹Ì¿Ï
+	is1.close();//////////////////////////////////////////////ë¯¸ì™„
 
 	for (int i = 0; i < 2; i++)
 	{
