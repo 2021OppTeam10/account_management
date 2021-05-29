@@ -64,3 +64,8 @@ void Account::genAccNum()
 		}
 	}
 }
+
+bool Account::isCorrect(unsigned int inPwd)
+{
+	return inPwd == mPwd ? true : false;
+}

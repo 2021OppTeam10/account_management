@@ -9,9 +9,9 @@
 class Account {
 protected:
     std::string mAccNum;
-    unsigned int mBalance;
     std::string mPerName;
     std::string mBnkName;
+    unsigned int mBalance;
     unsigned int mPwd;
 public:
     virtual std::string getAccountType() = 0;
@@ -24,4 +24,5 @@ public:
     unsigned int getBalance();
     unsigned int getPwd();
     void genAccNum();
+    bool isCorrect(unsigned int inPwd);
 };

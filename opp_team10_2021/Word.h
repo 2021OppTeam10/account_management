@@ -4,7 +4,10 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
-
+/*
+* 대상이 사람이름? 계좌?
+* 부족한 정보를 다시 묻는다
+*/
 class Word {
 private:
 	std::string inputString;

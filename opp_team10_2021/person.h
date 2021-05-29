@@ -1,8 +1,10 @@
+#pragma once
 #include <string>
 #include <vector>
 #include "SavingAccount.h"
 #include "DepositAccount.h"
 #include "LoanAccount.h"
+#include "Account.h"
 
 class Person {
 	std::vector<SavingAccount> mOwnedSavAcc;
@@ -10,10 +12,6 @@ class Person {
 	std::string mName;
 	std::string mPerNum;
 	LoanAccount loan;
-	template<typename T>
-	void saveAcc(T account);
-	template<typename T>
-	void loadAcc(T account);
 	void genPerNum();
 public:
 	Person(std::string name);
@@ -26,6 +24,9 @@ public:
 	void setDate();
 	bool getDate();
 	void dailyInterest();
-	void savePer();
-	void loadPer();
+	void savePer(int perOrder);
+	void loadPer(int perOrder);
+	void saveAcc(DepositAccount account, int perOrder, int accOrder);
+	void saveAcc(SavingAccount account, int perOrder, int accOrder);
+	void loadAcc(int perOrder, int accOrder);
 };

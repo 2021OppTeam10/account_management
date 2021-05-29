@@ -1,10 +1,7 @@
 /*
 * TODO
 * 1. const, static, & 추가
-* 2. 예금이랑 적금 계좌 생성자 넣기. 단 생성자 내에서 account 생성자 넣기. main에서 account 직접생성 금지.
 * 3. 파일입출력 try-catch
-* 4. 업로드 다운로드 때 오류나면?
-* 5. 클래스 상속 가상함수 프렌즈함수 제네릭함수 파일입력
 * 6. main에 cusList load하는 함수 person에 friend
 */
 #include <iostream>
@@ -13,27 +10,30 @@
 #include <fstream>
 #include <Windows.h>
 #include <ctime>
-#include "person.h"
-#include "DepositAccount.h"
-#include "SavingAccount.h"
+
 #include "Word.h"
-#include "LoanAccount.h"
+#include "person.h"
 
 using namespace std;
+
+void mainLoad(){}
 
 int main() {
 
 	vector<Person> cusList; // customer list
 	//Word myWord;
-	Person p1("bae");
+	Person p1("배재익");
 
-	DepositAccount newDeposit("bae", "우리은행", 1234);
+	DepositAccount newDeposit("배재익", "우리은행", 1234);
+	DepositAccount newDeposit2("배재익", "우리은행", 1234);
 	//DepositAccount newDeposit2("나선혁", "신한은행", 2345);
 	//SavingAccount newSaving("홍석원", "농협은행", 3456);
 
+
+	p1.loadPer(0);
 	p1.addDepAcc(newDeposit);
-	//p1.loadPer();
-	p1.savePer();
+	p1.addDepAcc(newDeposit2);
+	//p1.savePer(0);
 
 	//string name = myWord.getName();
 	//int funcChoiced = myWord.findFunc();

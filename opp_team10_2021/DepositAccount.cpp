@@ -22,12 +22,8 @@ DepositAccount::DepositAccount(string perName, string bnkName, unsigned int pwd)
 	genAccNum();
 }
 
-void DepositAccount::transfer(SavingAccount& destAcc, int amount) {
-	this->withdrawal(amount);
-	destAcc.deposit(amount);
-}
-
-void DepositAccount::transfer(DepositAccount& destAcc, int amount){
+template <typename T>
+void DepositAccount::transfer(T& destAcc, int amount) {
 	this->withdrawal(amount);
 	destAcc.deposit(amount);
 }

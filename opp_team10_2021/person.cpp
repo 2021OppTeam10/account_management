@@ -19,7 +19,7 @@ void upload() {
 
 void download() {
 	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
-	string download = "scp -r -o \"StrictHostKeyChecking no\" -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
+	string download = "scp -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
 	string cmd = "start /wait /min " + download;
 	if (system(cmd.c_str()) == 0)
 		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
@@ -139,40 +139,64 @@ void Person::dailyInterest() {
 	}
 }
 
-void Person::savePer()
+void Person::savePer(int perOrder)
 {
+	int accOrder = 0;
 	string tmp = "md customer";
 	if (system(tmp.c_str()))
 		system("cls");
 
 	tmp = "md .\\customer\\";
-	tmp += mPerNum;
+	tmp += to_string(perOrder);
 	if (system(tmp.c_str()))
 		system("cls");
 
-	for (auto i : mOwnedSavAcc) {
-		saveAcc(i);
-	}
+	ofstream os(".\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder));
+	ofstream os2(".\\customer\\" + to_string(perOrder) + "\\" + mPerNum + "p");
+	os << mPerNum << '\n';
+	os << mName << '\n';
+	os << loan.getAccNum() << "\n";
+	os << loan.getBalance() << "\n";
+	os << loan.getPerName() << "\n";
+	os << loan.getBnkName() << "\n";
+	os2 << loan.getPwd() << "\n";
+	os.close();
+	os2.close();
 
-	for (auto i : mOwnedDepAcc) {
-		saveAcc(i);
+	for (auto i : mOwnedSavAcc) {
+		saveAcc(i, perOrder, accOrder);
+		accOrder++;
 	}
-	tmp = "start /wait /min ssh -o \"StrictHostKeyChecking no\" -i id_rsa -p 8080 cppproj@1.225.217.57 rm -r ./customer/*";
+	for (auto i : mOwnedDepAcc) {
+		saveAcc(i, perOrder, accOrder);
+		accOrder++;
+	}
+	tmp = "start /wait /min ssh -o StrictHostKeyChecking=no -i id_rsa -p 8080 cppproj@1.225.217.57 rm -r ./customer/*";
 	system(tmp.c_str());
 	upload();
 }
 
-void Person::loadPer()
-{
+void Person::loadPer(int perOrder){
 	download();
+	int a = 0;
+	string filename = "./\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder);
+	ifstream is1(filename);
+	string tmp;
+	getline(is1, tmp);
+	cout << tmp;
+	is1.close();//////////////////////////////////////////////미완
+
+	for (int i = 0; i < 2; i++)
+	{
+		loadAcc(perOrder, a);
+		a++;
+	}
 }
 
-template<typename T>
-void Person::saveAcc(T account) {
-	string accNum = account.getAccNum();
+void Person::saveAcc(DepositAccount account, int perOrder, int accOrder) {
 
-	ofstream os(".\\customer\\" + mName + "\\" + accNum + ".txt");
-	ofstream os2(".\\customer\\" + mName + "\\" + accNum + "pw");
+	ofstream os(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
+	ofstream os2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
 	os << account.getAccNum() << "\n";
 	os << account.getBalance() << "\n";
 	os << account.getPerName() << "\n";
@@ -182,11 +206,45 @@ void Person::saveAcc(T account) {
 	os2.close();
 }
 
-template <typename T>
-void Person::loadAcc(T account) {
-	string accNum = account.getAccNum();
-	ifstream is("./customer/" + accNum + ".txt");
-	ifstream is2("./customer/" + accNum + "pw");
+void Person::saveAcc(SavingAccount account, int perOrder, int accOrder) {
+
+	ofstream os(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
+	ofstream os2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
+	os << account.getAccNum() << "\n";
+	os << account.getBalance() << "\n";
+	os << account.getPerName() << "\n";
+	os << account.getBnkName() << "\n";
+	os2 << account.getPwd() << "\n";
+	os << account.getSourceAcc() << "\n";
+	os.close();
+	os2.close();
+}
+
+void Person::loadAcc(int perOrder, int accOrder) {
+	string accNum;
+	string perName;
+	string bnkName;
+	string sourceAcc = "";
+	unsigned int balance;
+	unsigned int pwd;
+	ifstream is(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
+	is >> accNum;
+	is >> balance;
+	is >> perName;
+	is >> bnkName;
+	is >> sourceAcc;
 	is.close();
+
+	ifstream is2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
+	is2 >> pwd;
 	is2.close();
+
+	if (sourceAcc == "") {
+		DepositAccount tmp(accNum, balance, perName, bnkName, pwd);
+		mOwnedDepAcc.push_back(tmp);
+	}
+	else {
+		SavingAccount tmp(accNum, sourceAcc, balance, perName, bnkName, pwd);
+		mOwnedSavAcc.push_back(tmp);
+	}
 }

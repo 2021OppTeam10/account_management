@@ -4,6 +4,10 @@ using namespace std;
 LoanAccount::LoanAccount()
 {
     mAccNum = "NULL";
+    mBalance = 0;
+    mPerName = "NULL";
+    mBnkName = "NULL";
+    mPwd = 0;
 }
 
 LoanAccount::LoanAccount(std::string accNum, unsigned balance, std::string perName, std::string bnkName, unsigned int pwd) {

@@ -1,8 +1,5 @@
 #pragma once
 #include <string>
-#define LOAN_RATE 1.5
-#define SAVE_RATE 1.0
-#define DEPOSIT_RATE 0.1
 #include "Account.h"
 
 class SavingAccount final : public Account {
