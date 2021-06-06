@@ -11,20 +11,20 @@ void upload() {
 	string cmd = "start /min /wait " + upload;
 	std::locale::global(std::locale("Korean"));
 	if (system(upload.c_str()) == 0)
-		cout << " " << "file" << "\t\t\t\t\t\t     -ì—…ë¡œë“œ ì™„ë£Œ-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -¾÷·Îµå ¿Ï·á-" << endl;
 	else
-		cout << " " << "file" << "\t\t\t\t\t\t     -ì—…ë¡œë“œ ì‹¤íŒ¨-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -¾÷·Îµå ½ÇÆÐ-" << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
 void download() {
 	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
-	string download = "scp -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
+	string download = "scp -l 2000 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
 	string cmd = "start /wait /min " + download;
 	if (system(cmd.c_str()) == 0)
-		cout << " " << "file" << "\t\t\t\t\t\t     -ë‹¤ìš´ë¡œë“œ ì™„ë£Œ-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -´Ù¿î·Îµå ¿Ï·á-" << endl;
 	else
-		cout << " " << "file" << "\t\t\t\t\t\t     -ë‹¤ìš´ë¡œë“œ ì‹¤íŒ¨-" << endl;
+		cout << " " << "file" << "\t\t\t\t\t\t     -´Ù¿î·Îµå ½ÇÆÐ-" << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
@@ -50,6 +50,14 @@ Person::Person(string name) {
 	genPerNum();
 }
 
+Person::Person(string name, string num) {
+	mName = name;
+	mOwnedDepAcc;
+	mOwnedSavAcc;
+	mPerNum = num;
+}
+
+
 void Person::addSavAcc(SavingAccount newACC) {
 	mOwnedSavAcc.push_back(newACC);
 }
@@ -58,37 +66,37 @@ void Person::addDepAcc(DepositAccount newACC) {
 	mOwnedDepAcc.push_back(newACC);
 }
 
-void Person::rmAcc(string accNum) { // GUI ë‹¤ë“¬ê¸°~
+void Person::rmAcc(string accNum) { // GUI ´Ùµë±â~
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].getAccNum().compare(accNum) == 0) {
-			cout << "ìž…ê¸ˆí•˜ì‹¤ ê³„ì¢Œ (ì·¨ì†Œì‹œ ìˆ«ìž 1) : ";
+			cout << "ÀÔ±ÝÇÏ½Ç °èÁÂ (Ãë¼Ò½Ã ¼ýÀÚ 1) : ";
 			string num;
 			getline(cin, num);
-			if (num == "1") 
+			if (num == "1")
 				return;
 			for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 				if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(num) == 0) {
 					mOwnedDepAcc[i].deposit(mOwnedSavAcc[i].getBalance());
-					cout << accNum << "ì •ê¸°ì ê¸ˆê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤."<< endl;
+					cout << accNum << "Á¤±âÀû±Ý°èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << endl;
 					mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
 					return;
 				}
 				else {
 					while (1) {
-						cout << "ìž˜ëª»ëœ ê³„ì¢Œë²ˆí˜¸ ìž…ë‹ˆë‹¤." << endl;
-						cout << "ìž…ê¸ˆí•˜ì‹¤ ê³„ì¢Œ (ì·¨ì†Œì‹œ ìˆ«ìž 1): ";
+						cout << "Àß¸øµÈ °èÁÂ¹øÈ£ ÀÔ´Ï´Ù." << endl;
+						cout << "ÀÔ±ÝÇÏ½Ç °èÁÂ (Ãë¼Ò½Ã ¼ýÀÚ 1): ";
 						getline(cin, num);
 						if (num == "1")
 							return;
 						for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 							if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(num) == 0) {
 								mOwnedDepAcc[i].deposit(mOwnedSavAcc[i].getBalance());
-								cout << accNum << "  ì •ê¸°ì ê¸ˆê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤."  << endl;
+								cout << accNum << "  Á¤±âÀû±Ý°èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << endl;
 								mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
 								return;
-							}	
+							}
 						}
-						
+
 					}
 				}
 			}
@@ -97,12 +105,12 @@ void Person::rmAcc(string accNum) { // GUI ë‹¤ë“¬ê¸°~
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
 			//
-			cout << accNum<< "%s ë³´í†µì˜ˆê¸ˆê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤."  << endl;
+			cout << accNum << "%s º¸Åë¿¹±Ý°èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << endl;
 			mOwnedDepAcc.erase(mOwnedDepAcc.begin() + i);
 			return;
 		}
 	}
-	cout <<  accNum <<"  ê³„ì¢ŒëŠ” ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤." << endl;;
+	cout << accNum << "  °èÁÂ´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;;
 	return;
 }
 
@@ -163,14 +171,12 @@ void Person::dailyInterest() {
 			}
 			int tAmount = (SAVE_RATE / 100) * i.getBalance();
 			getSavAcc(i.getSourceAcc()).withdrawal(tAmount);
-			i.deposit(tAmount);									//ì ê¸ˆ
+			i.deposit(tAmount);									//Àû±Ý
 		}
 		for (auto i : mOwnedDepAcc) {
-			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//ì˜ˆê¸ˆ
+			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//¿¹±Ý
 		}
-		for (auto i : loan) {
-			i.deposit((LOAN_RATE / 100) * i.getBalance());
-		}//ëŒ€ì¶œ
+		loan.deposit((LOAN_RATE / 100) * loan.getBalance());//´ëÃâ
 	}
 }
 
@@ -211,21 +217,33 @@ void Person::savePer(int perOrder)
 	upload();
 }
 
-void Person::loadPer(int perOrder){
+void Person::loadPer(int perOrder, string perNum) {
 	download();
-	int a = 0;
 	string filename = "./\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder);
 	ifstream is1(filename);
-	string tmp;
-	getline(is1, tmp);
-	cout << tmp;
-	is1.close();//////////////////////////////////////////////ë¯¸ì™„
+	string accNum;
+	string balance;
+	string perName;
+	string bnkName;
+	getline(is1, accNum);
+	getline(is1, accNum);
+	getline(is1, accNum);
+	getline(is1, balance);
+	getline(is1, perName);
+	getline(is1, bnkName);
+	is1.close();
 
-	for (int i = 0; i < 2; i++)
-	{
-		loadAcc(perOrder, a);
-		a++;
-	}
+	string pwd;
+	filename = "./\\customer\\" + to_string(perOrder) + "\\" + perNum +"p";
+	ifstream is(filename);
+	getline(is, pwd);
+	is.close();
+
+	LoanAccount tLoan(accNum, stoi(balance), perName, bnkName, stoi(pwd));
+	loan = tLoan;
+	is1.close();//////////////////////////////////////////////¹Ì¿Ï
+
+	for (int i = 0; loadAcc(perOrder, i); i++){}
 }
 
 void Person::saveAcc(DepositAccount account, int perOrder, int accOrder) {
@@ -255,7 +273,8 @@ void Person::saveAcc(SavingAccount account, int perOrder, int accOrder) {
 	os2.close();
 }
 
-void Person::loadAcc(int perOrder, int accOrder) {
+bool Person::loadAcc(int perOrder, int accOrder) {
+
 	string accNum;
 	string perName;
 	string bnkName;
@@ -263,6 +282,8 @@ void Person::loadAcc(int perOrder, int accOrder) {
 	unsigned int balance;
 	unsigned int pwd;
 	ifstream is(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
+	if (!is.is_open())
+		return false;
 	is >> accNum;
 	is >> balance;
 	is >> perName;
@@ -282,4 +303,5 @@ void Person::loadAcc(int perOrder, int accOrder) {
 		SavingAccount tmp(accNum, sourceAcc, balance, perName, bnkName, pwd);
 		mOwnedSavAcc.push_back(tmp);
 	}
+	return true;
 }

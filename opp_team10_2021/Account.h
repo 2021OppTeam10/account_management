@@ -28,4 +28,5 @@ public:
     int getsavingmonth();
     void genAccNum();
     bool isCorrect(unsigned int inPwd);
+    void operator=(const Account& rhs);
 };

@@ -15,6 +15,7 @@ class Person {
 	void genPerNum();
 public:
 	Person(std::string name);
+	Person(std::string name, std::string num);
 	std::string getname();
 	virtual void addSavAcc(SavingAccount newACC);
 	virtual void addDepAcc(DepositAccount newACC);
@@ -25,8 +26,8 @@ public:
 	bool getDate();
 	void dailyInterest();
 	void savePer(int perOrder);
-	void loadPer(int perOrder);
+	void loadPer(int perOrder, std::string perNum);
 	void saveAcc(DepositAccount account, int perOrder, int accOrder);
 	void saveAcc(SavingAccount account, int perOrder, int accOrder);
-	void loadAcc(int perOrder, int accOrder);
+	bool loadAcc(int perOrder, int accOrder);
 };

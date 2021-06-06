@@ -2,7 +2,6 @@
 * TODO
 * 1. const, static, & 추가
 * 3. 파일입출력 try-catch
-* 6. main에 cusList load하는 함수 person에 friend
 */
 #include <iostream>
 #include <string>
@@ -16,24 +15,31 @@
 
 using namespace std;
 
-void mainLoad(){}
+vector<Person> mainLoad() {
+	vector<Person> result;
+	string name;
+	string num;
+	int count = 0;
+	ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
+	do
+	{
+		getline(is, num);
+		getline(is, name);
+		Person tmp(name, num);
+		tmp.loadPer(count, num);
+		is.close();
+		result.push_back(tmp);
+		count++;
+		ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
+	} while (is.is_open());
+	return result;
+}
 
-int main() {
+ int main() {
 
-	vector<Person> cusList; // customer list
-	//Word myWord;
-	Person p1("배재익");
+	vector<Person> cusList = mainLoad(); // customer list
+	Word myWord;
 
-	DepositAccount newDeposit("배재익", "우리은행", 1234);
-	DepositAccount newDeposit2("배재익", "우리은행", 1234);
-	//DepositAccount newDeposit2("나선혁", "신한은행", 2345);
-	//SavingAccount newSaving("홍석원", "농협은행", 3456);
-
-
-	p1.loadPer(0);
-	p1.addDepAcc(newDeposit);
-	p1.addDepAcc(newDeposit2);
-	//p1.savePer(0);
 
 	//string name = myWord.getName();
 	//int funcChoiced = myWord.findFunc();
