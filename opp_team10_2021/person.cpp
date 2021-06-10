@@ -21,6 +21,7 @@ void download() {
 	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
 	string download = "scp -l 2000 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
 	string cmd = "start /wait /min " + download;
+	std::locale::global(std::locale("Korean"));
 	if (system(cmd.c_str()) == 0)
 		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
 	else
@@ -159,6 +160,27 @@ const bool Person::getDate() {
 	else
 	{
 		return false;
+	}
+}
+
+void Person::dailyInterest()
+{
+	{
+		if (getDate()) {
+			for (auto i : mOwnedSavAcc) {
+				if (i.getsavingmonth() <= 0) {
+					rmAcc(i.getAccNum());
+					break;
+				}
+				int tAmount = (SAVE_RATE / 100) * i.getBalance();
+				getDepAcc(i.getSourceAcc()).withdrawal(tAmount);
+				i.deposit(tAmount);									//적금
+			}
+			for (auto i : mOwnedDepAcc) {
+				i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//예금
+			}
+			loan.deposit((LOAN_RATE / 100) * loan.getBalance());//대출
+		}
 	}
 }
 

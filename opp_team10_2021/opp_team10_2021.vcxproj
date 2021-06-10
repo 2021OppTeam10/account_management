@@ -142,6 +142,7 @@
   <ItemGroup>
     <ClCompile Include="Account.cpp" />
     <ClCompile Include="Account.h" />
+    <ClCompile Include="Crypt.cpp" />
     <ClCompile Include="DepositAccount.cpp" />
     <ClCompile Include="LoanAccount.cpp" />
     <ClCompile Include="person.cpp" />
@@ -150,6 +151,7 @@
     <ClCompile Include="Word.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Crypt.h" />
     <ClInclude Include="DepositAccount.h" />
     <ClInclude Include="LoanAccount.h" />
     <ClInclude Include="person.h" />

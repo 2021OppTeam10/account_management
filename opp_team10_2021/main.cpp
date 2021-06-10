@@ -19,7 +19,7 @@ vector<Person> mainLoad() {
 	vector<Person> result;
 	string name;
 	string num;
-	int count = 0;
+	int count = 1;
 	ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
 	if (!is.is_open())
 		return result;
@@ -38,9 +38,10 @@ vector<Person> mainLoad() {
 }
 
  int main() {
-
 	vector<Person> cusList = mainLoad(); // customer list
+	for (auto i : cusList)
+		i.dailyInterest();
 	Word myWord;
-	myWord.start();
+	myWord.start(cusList);
 	return 0;
 }

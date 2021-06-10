@@ -3,22 +3,6 @@
 
 using namespace std;
 
-Word::Word()
-{
-	std::getline(std::cin, inputString);
-	tokenedString = StringToken(inputString);
-	for (auto i : tokenedString)
-	{
-		size_t wonPos = i.find("원을");
-		if (wonPos != string::npos && wonPos != 0 && wonPos != -1)
-		{
-			mAmount = stoi(i.substr(0, wonPos));
-			break;
-		}
-	}
-	LoadUsed();
-}
-
 int Word::findFunc() {
 	vector<string> funcList = { "입금", "출금", "송금", "계좌개설", "대출", "계좌삭제" };
 	int funcChoiced = 3;
@@ -38,6 +22,7 @@ int Word::findFunc() {
 const void Word::getInput()
 {
 	getline(cin, inputString);
+	tokenedString = StringToken(inputString);
 }
 
 void Word::setTokenedString(std::string tmp)
@@ -76,7 +61,7 @@ const std::string Word::getName() {
 		nPos = i.find("에게");
 		if (nPos != string::npos && nPos != 0 && nPos != -1)
 		{
-			result = '0';
+			result = '1';
 			result += i.substr(0, nPos);
 			break;
 		}
@@ -118,19 +103,16 @@ void Word::addUsedSen(string sentence) {
 	usedSen.push_back(sentence);
 }
 
-string Word::findWord(string firstWord) {
+string Word::findUsedSen(string sentence) {
 	int tmp = 0;
 	for (size_t i = 0; i < usedSen.size(); i++)
 	{
-		if (usedSen[i].find(firstWord) != string::npos && usedSen[i].find(firstWord) != -1) {
-			tmp = i;
-			break;
-		}
+		
 	}
 	return usedSen[tmp];
 }
 
-void Word::swit(string name, int funcChoiced, int amount) {
+void Word::switFunc(string name, int funcChoiced, int amount) {
 	switch (funcChoiced)
 	{
 	case 0:
@@ -148,8 +130,10 @@ void Word::swit(string name, int funcChoiced, int amount) {
 	}
 }
 
-void Word::start()
+void Word::start(vector<Person> cusList)
 {
+	LoadUsed();
+	getInput();
 	string name = getName();
 	int funcChoiced = findFunc();
 	int amount = mAmount;
@@ -157,11 +141,28 @@ void Word::start()
 	if (amount != 1 && (0 <= funcChoiced && funcChoiced <= 2)) // 똑바로 입력한경우
 	{
 		saveWord();
-		swit(name, funcChoiced, amount);
+		if (name[0] == '0') // 계좌가 대상
+		{
+			name.erase(name.begin());
+			switFunc(name, funcChoiced, amount);
+		}
+		else if(name[0] == '1') // 이름이 대상
+		{
+			name.erase(name.begin());
+			//이름 다 보여주고
+			//
+			cout << "원하는 계좌번호를 입력하세요 >> ";
+			getInput();
+		}
+		else
+		{
+			cout << "입력오류!" << endl;
+			return;
+		}
 	}
 	else {
 		int tmp = 1;
-		string tmpS = findWord(tokenedString[0]);
+		string tmpS = findUsedSen(inputString);
 		while (1)
 		{
 			cout << tmpS << "를 실행할까요?" << endl;
@@ -173,7 +174,7 @@ void Word::start()
 				funcChoiced = findFunc();
 				amount = mAmount;
 				name = getName();
-				swit(name, funcChoiced, amount);
+				switFunc(name, funcChoiced, amount);
 				break;
 			}
 			else if (tmpSS == "아니오")

@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <algorithm>
+#include "person.h"
 /*
 * 대상이 사람이름? 계좌?
 * 부족한 정보를 다시 묻는다
@@ -22,11 +23,10 @@ private:
 	void setTokenedString(std::string tmp);
 	void saveWord();
 	void addUsedSen(std::string sentence);
-	std::string findWord(std::string firstWord);
+	std::string findUsedSen(std::string sentence);
 	int findFunc();
-	void swit(std::string name, int funcChoiced, int amount);
+	void switFunc(std::string name, int funcChoiced, int amount);
 
 public:
-	Word();
-	void start();
+	void start(std::vector<Person> cusList);
 };
