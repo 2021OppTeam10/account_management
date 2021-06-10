@@ -1,7 +1,25 @@
 ﻿  person.cpp
-C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.cpp(172,16): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.cpp(177,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.cpp(179,34): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(34,17): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(39,36): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(41,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  main.cpp
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(34,17): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(39,36): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(41,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Word.cpp
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(34,17): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(39,36): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.h(41,35): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\Word.cpp(52,2): warning C4834: 'nodiscard' 특성이 포함된 함수의 반환 값을 버리는 중
+C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\Word.cpp(126,11): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
 C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.cpp(132): warning C4715: 'Person::getDepAcc': 모든 제어 경로에서 값을 반환하지는 않습니다.
 C:\Users\JaeikBae\source\repos\account_management\opp_team10_2021\person.cpp(124): warning C4715: 'Person::getSavAcc': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  opp_team10_2021.vcxproj -> C:\Users\JaeikBae\source\repos\account_management\x64\Debug\opp_team10_2021.exe
+x64\Debug\Account.obj : warning LNK4042: 개체가 두 번 이상 지정되었습니다. 나머지는 무시됩니다.
+person.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const __cdecl SavingAccount::getAccountType(void)" (?getAccountType@SavingAccount@@UEAA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+main.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const __cdecl SavingAccount::getAccountType(void)" (?getAccountType@SavingAccount@@UEAA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+person.obj : error LNK2019: "public: class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const __cdecl SavingAccount::getSourceAcc(void)" (?getSourceAcc@SavingAccount@@QEAA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)"public: void __cdecl Person::saveAcc(class SavingAccount,int,int)" (?saveAcc@Person@@QEAAXVSavingAccount@@HH@Z) 함수에서 참조되는 확인할 수 없는 외부 기호
+person.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const __cdecl DepositAccount::getAccountType(void)" (?getAccountType@DepositAccount@@UEAA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+main.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const __cdecl DepositAccount::getAccountType(void)" (?getAccountType@DepositAccount@@UEAA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+main.obj : error LNK2001: 확인할 수 없는 외부 기호 "public: virtual class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const __cdecl LoanAccount::getAccountType(void)" (?getAccountType@LoanAccount@@UEAA?BV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ)
+C:\Users\JaeikBae\source\repos\account_management\x64\Debug\opp_team10_2021.exe : fatal error LNK1120: 4개의 확인할 수 없는 외부 참조입니다.

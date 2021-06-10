@@ -114,7 +114,7 @@ void Person::rmAcc(string accNum) { // GUI 다듬기~
 	return;
 }
 
-const SavingAccount& Person::getSavAcc(string accNum) {
+SavingAccount& Person::getSavAcc(string accNum) {
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
 			return mOwnedSavAcc[i];
@@ -122,7 +122,7 @@ const SavingAccount& Person::getSavAcc(string accNum) {
 	}
 
 }
-const DepositAccount& Person::getDepAcc(string accNum) {
+DepositAccount& Person::getDepAcc(string accNum) {
 
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
@@ -159,24 +159,6 @@ const bool Person::getDate() {
 	else
 	{
 		return false;
-	}
-}
-
-void Person::dailyInterest() {
-	if (getDate()) {
-		for (auto i : mOwnedSavAcc) {
-			if (i.getsavingmonth() <= 0) {
-				rmAcc(i.getAccNum());
-				break;
-			}
-			int tAmount = (SAVE_RATE / 100) * i.getBalance();
-			getSavAcc(i.getSourceAcc()).withdrawal(tAmount);
-			i.deposit(tAmount);									//적금
-		}
-		for (auto i : mOwnedDepAcc) {
-			i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//예금
-		}
-		loan.deposit((LOAN_RATE / 100) * loan.getBalance());//대출
 	}
 }
 

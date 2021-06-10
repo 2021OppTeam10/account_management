@@ -10,6 +10,7 @@ void Account::deposit(int amount) {
 void Account::withdrawal(int amount) {
 	this->mBalance -= amount;
 }
+
 void Account::dailymonth() {
 	this->savingmonth--;
 }

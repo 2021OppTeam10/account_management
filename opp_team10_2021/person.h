@@ -20,11 +20,27 @@ public:
 	virtual void addSavAcc(SavingAccount newACC);
 	virtual void addDepAcc(DepositAccount newACC);
 	virtual void rmAcc(std::string accNum);
-	const SavingAccount& getSavAcc(std::string accNum);
-	const DepositAccount& getDepAcc(std::string accNum);
+	SavingAccount& getSavAcc(std::string accNum);
+	DepositAccount& getDepAcc(std::string accNum);
 	void setDate();
 	const bool getDate();
-	void dailyInterest();
+	void dailyInterest() {
+		if (getDate()) {
+			for (auto i : mOwnedSavAcc) {
+				if (i.getsavingmonth() <= 0) {
+					rmAcc(i.getAccNum());
+					break;
+				}
+				int tAmount = (SAVE_RATE / 100) * i.getBalance();
+				getDepAcc(i.getSourceAcc()).withdrawal(tAmount);
+				i.deposit(tAmount);									//적금
+			}
+			for (auto i : mOwnedDepAcc) {
+				i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//예금
+			}
+			loan.deposit((LOAN_RATE / 100) * loan.getBalance());//대출
+		}
+	}
 	void savePer(int perOrder);
 	void loadPer(int perOrder, std::string perNum);
 	void saveAcc(DepositAccount account, int perOrder, int accOrder);
