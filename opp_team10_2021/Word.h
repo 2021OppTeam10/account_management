@@ -20,11 +20,11 @@ private:
 
 public:
 	Word();
-	void getInput();
-	int getAmount();
-	std::string getinputString();
-	std::vector<std::string> getTokenedString();
-	std::string getName();
+	const void getInput();
+	const int getAmount();
+	const std::string getinputString();
+	const std::vector<std::string> getTokenedString();
+	const std::string getName();
 	void setTokenedString(std::string tmp);
 	void saveWord();
 	void addUsedWord(std::string word);

@@ -15,17 +15,17 @@ protected:
     unsigned int mPwd;
     int savingmonth;
 public:
-    virtual std::string getAccountType() = 0;
+    virtual const std::string getAccountType() = 0;
     virtual void deposit(int amount);
     virtual void withdrawal(int amount);
     virtual void dailymonth();
     void printAccount();
-    std::string getAccNum();
-    std::string getPerName();
-    std::string getBnkName();
-    unsigned int getBalance();
-    unsigned int getPwd();
-    int getsavingmonth();
+    const std::string getAccNum();
+    const std::string getPerName();
+    const std::string getBnkName();
+    const unsigned int getBalance();
+    const unsigned int getPwd();
+    const int getsavingmonth();
     void genAccNum();
     bool isCorrect(unsigned int inPwd);
     void operator=(const Account& rhs);

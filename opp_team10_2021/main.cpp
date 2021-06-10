@@ -21,6 +21,8 @@ vector<Person> mainLoad() {
 	string num;
 	int count = 0;
 	ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
+	if (!is.is_open())
+		return result;
 	do
 	{
 		getline(is, num);

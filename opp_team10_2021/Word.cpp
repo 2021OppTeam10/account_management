@@ -19,12 +19,12 @@ Word::Word()
 	LoadUsed();
 }
 
-std::string Word::getinputString()
+const std::string Word::getinputString()
 {
 	return inputString;
 }
 
-std::vector<std::string> Word::getTokenedString()
+const std::vector<std::string> Word::getTokenedString()
 {
 	return tokenedString;
 }
@@ -79,7 +79,7 @@ int Word::findFunc() {
 	return funcChoiced;
 }
 
-void Word::getInput()
+const void Word::getInput()
 {
 	getline(cin, inputString);
 }
@@ -89,11 +89,11 @@ void Word::setTokenedString(std::string tmp)
 	tokenedString = StringToken(tmp);
 }
 
-int Word::getAmount() {
+const int Word::getAmount() {
 	return mAmount;
 }
 
-std::string Word::getName() {
+const std::string Word::getName() {
 	string result;
 	for (auto i : tokenedString)
 	{

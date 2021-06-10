@@ -19,12 +19,12 @@ SavingAccount::SavingAccount(string perName, string bnkName, unsigned int pwd)
     genAccNum();
 }
 
-string SavingAccount::getAccountType()
+const string SavingAccount::getAccountType()
 {
 	return "Àû±Ý";
 }
 
-std::string SavingAccount::getSourceAcc()
+const std::string SavingAccount::getSourceAcc()
 {
     return mSourceAcc;
 }

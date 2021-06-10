@@ -39,7 +39,7 @@ void Person::genPerNum()
 	}
 }
 
-string Person::getname() {
+const string Person::getname() {
 	return mName;
 }
 
@@ -114,7 +114,7 @@ void Person::rmAcc(string accNum) { // GUI 다듬기~
 	return;
 }
 
-SavingAccount& Person::getSavAcc(string accNum) {
+const SavingAccount& Person::getSavAcc(string accNum) {
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].SavingAccount::getAccNum().compare(accNum) == 0) {
 			return mOwnedSavAcc[i];
@@ -122,7 +122,7 @@ SavingAccount& Person::getSavAcc(string accNum) {
 	}
 
 }
-DepositAccount& Person::getDepAcc(string accNum) {
+const DepositAccount& Person::getDepAcc(string accNum) {
 
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
@@ -137,7 +137,7 @@ void Person::setDate()
 	system(date.c_str());
 }
 
-bool Person::getDate() {
+const bool Person::getDate() {
 
 	time_t ttime = time(0);
 	tm* local_time = localtime(&ttime);
@@ -220,30 +220,35 @@ void Person::savePer(int perOrder)
 void Person::loadPer(int perOrder, string perNum) {
 	download();
 	string filename = "./\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder);
-	ifstream is1(filename);
 	string accNum;
 	string balance;
 	string perName;
 	string bnkName;
-	getline(is1, accNum);
-	getline(is1, accNum);
-	getline(is1, accNum);
-	getline(is1, balance);
-	getline(is1, perName);
-	getline(is1, bnkName);
-	is1.close();
+	try
+	{
+		ifstream is1(filename);
+		getline(is1, accNum);
+		getline(is1, accNum);
+		getline(is1, accNum);
+		getline(is1, balance);
+		getline(is1, perName);
+		getline(is1, bnkName);
+		is1.close();
 
-	string pwd;
-	filename = "./\\customer\\" + to_string(perOrder) + "\\" + perNum +"p";
-	ifstream is(filename);
-	getline(is, pwd);
-	is.close();
-
-	LoanAccount tLoan(accNum, stoi(balance), perName, bnkName, stoi(pwd));
-	loan = tLoan;
-	is1.close();//////////////////////////////////////////////미완
-
-	for (int i = 0; loadAcc(perOrder, i); i++){}
+		ifstream is(filename);
+		string pwd;
+		filename = "./\\customer\\" + to_string(perOrder) + "\\" + perNum + "p";
+		getline(is, pwd);
+		is.close();
+		LoanAccount tLoan(accNum, stoi(balance), perName, bnkName, stoi(pwd));
+		loan = tLoan;
+		for (int i = 0; loadAcc(perOrder, i); i++) {}
+	}
+	catch (...)
+	{
+		cout << "******************파일입출력 오류!******************" << endl;
+		return;
+	}
 }
 
 void Person::saveAcc(DepositAccount account, int perOrder, int accOrder) {
@@ -261,16 +266,24 @@ void Person::saveAcc(DepositAccount account, int perOrder, int accOrder) {
 
 void Person::saveAcc(SavingAccount account, int perOrder, int accOrder) {
 
-	ofstream os(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
-	ofstream os2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
-	os << account.getAccNum() << "\n";
-	os << account.getBalance() << "\n";
-	os << account.getPerName() << "\n";
-	os << account.getBnkName() << "\n";
-	os2 << account.getPwd() << "\n";
-	os << account.getSourceAcc() << "\n";
-	os.close();
-	os2.close();
+	try
+	{
+		ofstream os(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
+		ofstream os2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
+		os << account.getAccNum() << "\n";
+		os << account.getBalance() << "\n";
+		os << account.getPerName() << "\n";
+		os << account.getBnkName() << "\n";
+		os2 << account.getPwd() << "\n";
+		os << account.getSourceAcc() << "\n";
+		os.close();
+		os2.close();
+	}
+	catch (...)
+	{
+		cout << "******************파일입출력 오류!******************" << endl;
+		return;
+	}
 }
 
 bool Person::loadAcc(int perOrder, int accOrder) {
@@ -281,27 +294,36 @@ bool Person::loadAcc(int perOrder, int accOrder) {
 	string sourceAcc = "";
 	unsigned int balance;
 	unsigned int pwd;
-	ifstream is(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
-	if (!is.is_open())
+	try
+	{
+		ifstream is(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
+		if (!is.is_open())
+			return false;
+		is >> accNum;
+		is >> balance;
+		is >> perName;
+		is >> bnkName;
+		is >> sourceAcc;
+		is.close();
+
+		ifstream is2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
+		is2 >> pwd;
+		is2.close();
+
+		if (sourceAcc == "") {
+			DepositAccount tmp(accNum, balance, perName, bnkName, pwd);
+			mOwnedDepAcc.push_back(tmp);
+		}
+		else {
+			SavingAccount tmp(accNum, sourceAcc, balance, perName, bnkName, pwd);
+			mOwnedSavAcc.push_back(tmp);
+		}
+		return true;
+	}
+	catch (...)
+	{
+		cout << "******************파일입출력 오류!******************" << endl;
 		return false;
-	is >> accNum;
-	is >> balance;
-	is >> perName;
-	is >> bnkName;
-	is >> sourceAcc;
-	is.close();
-
-	ifstream is2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
-	is2 >> pwd;
-	is2.close();
-
-	if (sourceAcc == "") {
-		DepositAccount tmp(accNum, balance, perName, bnkName, pwd);
-		mOwnedDepAcc.push_back(tmp);
 	}
-	else {
-		SavingAccount tmp(accNum, sourceAcc, balance, perName, bnkName, pwd);
-		mOwnedSavAcc.push_back(tmp);
-	}
-	return true;
+
 }

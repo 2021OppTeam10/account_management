@@ -25,31 +25,31 @@ void Account::printAccount() {
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
-string Account::getAccNum() {//계좌번호
+const string Account::getAccNum() {//계좌번호
 
 	return mAccNum;
 }
 
-unsigned int Account::getBalance() {//잔액
+const unsigned int Account::getBalance() {//잔액
 
 	return mBalance;
 }
 
-string Account::getPerName() {//사람이름
+const string Account::getPerName() {//사람이름
 
 	return mPerName;
 }
 
-string Account::getBnkName() {//은행명
+const string Account::getBnkName() {//은행명
 
 	return mBnkName;
 }
 
-unsigned int Account::getPwd()
+const unsigned int Account::getPwd()
 {
 	return mPwd;
 }
-int Account::getsavingmonth() {
+const int Account::getsavingmonth() {
 	return savingmonth;
 }
 

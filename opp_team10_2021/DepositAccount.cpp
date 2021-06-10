@@ -28,7 +28,7 @@ void DepositAccount::transfer(T& destAcc, int amount) {
 	destAcc.deposit(amount);
 }
 
-string DepositAccount::getAccountType()
+const string DepositAccount::getAccountType()
 {
 	return "¿¹±Ý";
 }

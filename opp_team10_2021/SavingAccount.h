@@ -8,6 +8,6 @@ private:
 public:
 	SavingAccount(std::string accNum, std::string sourceAcc, unsigned balance, std::string perName, std::string bnkName, unsigned int pwd);
 	SavingAccount(std::string perName, std::string bnkName, unsigned int pwd);
-	virtual std::string getAccountType() override;
-	std::string getSourceAcc();
+	virtual const std::string getAccountType() override;
+	const std::string getSourceAcc();
 };

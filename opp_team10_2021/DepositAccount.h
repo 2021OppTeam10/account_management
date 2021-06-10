@@ -11,5 +11,5 @@ public:
 	DepositAccount(std::string perName, std::string bnkName, unsigned int pwd);
 	template <typename T>
 	void transfer(T& destAcc, int amount);
-	virtual std::string getAccountType() override;
+	virtual const std::string getAccountType() override;
 };

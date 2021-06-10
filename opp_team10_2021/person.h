@@ -16,14 +16,14 @@ class Person {
 public:
 	Person(std::string name);
 	Person(std::string name, std::string num);
-	std::string getname();
+	const std::string getname();
 	virtual void addSavAcc(SavingAccount newACC);
 	virtual void addDepAcc(DepositAccount newACC);
 	virtual void rmAcc(std::string accNum);
-	SavingAccount& getSavAcc(std::string accNum);
-	DepositAccount& getDepAcc(std::string accNum);
+	const SavingAccount& getSavAcc(std::string accNum);
+	const DepositAccount& getDepAcc(std::string accNum);
 	void setDate();
-	bool getDate();
+	const bool getDate();
 	void dailyInterest();
 	void savePer(int perOrder);
 	void loadPer(int perOrder, std::string perNum);
