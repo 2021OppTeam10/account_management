@@ -16,33 +16,59 @@ void Account::dailymonth() {
 	this->savingmonth--;
 }
 
+void Account::printAllAccount() {
+	vector<Person> cusList;
+	vector<SavingAccount> mOwnedSavAcc;
+	vector<DepositAccount> mOwnedDepAcc;
+	string PerName;
+	cin >> PerName;
+	cout << "ì´ë¦„ : " << PerName;
+	for (int i = 0; i < cusList.size(); i++) {
+		if (PerName == cusList[i].mName) {
+			for (int j = 0; j < mOwnedSavAcc.size(); j++) {
+				if (PerName == mOwnedSavAcc[j].mName) {
+					cout << "ì˜ˆê¸ˆê³„ì¢Œ : " << mOwnedSavAcc[j].mAccNum << endl;
+				}
+
+				for (int k = 0; k < mOwnedDepAcc.size(); k++) {
+					if (PerName == mOwnedDepAcc[k].mName) {
+						cout << "ì ê¸ˆê³„ì¢Œ : " << mOwnedDepAcc[k].mAccNum << endl;
+					}
+				}
+			}
+		}
+		else
+			cout << "ì´ë¦„ì´ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤." << endl;
+	}
+}
+
 void Account::printAccount() {
 	cout << "-----------------------------< ACCOUNT INFO >-----------------------------" << endl;
-	cout << "°èÁÂ Á¾·ù : " << this->getAccountType() << endl;
-	cout << "ÀÌ¸§ : " << mPerName << endl;
-	cout << "ÀºÇà¸í : " << mBnkName << endl;
-	cout << "°èÁÂ¹øÈ£ : " << mAccNum << endl;
-	cout << "ÀÜ¾× : " << mBalance << endl;
-	cout << "¿¹±ÝÀÌÀ² : " << DEPOSIT_RATE << "%" << endl << endl;
+	cout << "ê³„ì¢Œ ì¢…ë¥˜ : " << this->getAccountType() << endl;
+	cout << "ì´ë¦„ : " << mPerName << endl;
+	cout << "ì€í–‰ëª… : " << mBnkName << endl;
+	cout << "ê³„ì¢Œë²ˆí˜¸ : " << mAccNum << endl;
+	cout << "ìž”ì•¡ : " << mBalance << endl;
+	cout << "ì˜ˆê¸ˆì´ìœ¨ : " << DEPOSIT_RATE << "%" << endl << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
-const string Account::getAccNum() {//°èÁÂ¹øÈ£
+const string Account::getAccNum() {//ê³„ì¢Œë²ˆí˜¸
 
 	return mAccNum;
 }
 
-const unsigned int Account::getBalance() {//ÀÜ¾×
+const unsigned int Account::getBalance() {//ìž”ì•¡
 
 	return mBalance;
 }
 
-const string Account::getPerName() {//»ç¶÷ÀÌ¸§
+const string Account::getPerName() {//ì‚¬ëžŒì´ë¦„
 
 	return mPerName;
 }
 
-const string Account::getBnkName() {//ÀºÇà¸í
+const string Account::getBnkName() {//ì€í–‰ëª…
 
 	return mBnkName;
 }
