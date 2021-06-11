@@ -11,7 +11,7 @@ Crypt::~Crypt(void) {
 
 }
 
-BOOL Crypt::Encrypt(BYTE* source, BYTE* dest, DWORD length) {
+BOOL Crypt::Encrypt(char* source, char* dest, DWORD length) {
 	DWORD i;
 	INT key = KEY;
 	if (!source || !dest || length <= 0) {
@@ -25,9 +25,9 @@ BOOL Crypt::Encrypt(BYTE* source, BYTE* dest, DWORD length) {
 	return TRUE;
 }
 
-BOOL Crypt::Decrypt(BYTE* source, BYTE* dest, DWORD length) {
+BOOL Crypt::Decrypt(char* source, char* dest, DWORD length) {
 	DWORD i;
-	BYTE previousBlock;
+	char previousBlock;
 	INT key = KEY;
 	if (!source || !dest || length <= 0) {
 		return FALSE;
@@ -43,15 +43,25 @@ BOOL Crypt::Decrypt(BYTE* source, BYTE* dest, DWORD length) {
 
 using namespace std;
 
-//void Crypt::test(string tmp)
-//{
-//	BYTE origin[];
-//	BYTE encrypt[10];
-//	BYTE decrypt[10];
-//
-//	ZeroMemory(encrypt, sizeof(encrypt));
-//	ZeroMemory(decrypt, sizeof(decrypt));
-//
-//	Crypt::Encrypt(origin, encrypt, sizeof(origin));
-//	Crypt::Decrypt(encrypt, decrypt, sizeof(origin));
-//}
+void Crypt::test(unsigned pwd)
+{	
+	
+	/*enum{HEADER = 2};
+	short Size = tmp.size() * 2;
+	origin[0] = Size & 0xff;
+	origin[1] = (Size >> 8) & 0xff;
+	memcpy_s(origin + HEADER, Size, tmp.c_str(), Size);	*/
+	char tmp[10];
+	sprintf_s(tmp, "%d", pwd);
+	char encrypt[10];
+	char decrypt[10];
+
+	ZeroMemory(encrypt, sizeof(encrypt));
+	ZeroMemory(decrypt, sizeof(decrypt));
+
+	Crypt::Encrypt(tmp, encrypt, sizeof(tmp));
+	cout << "원 본: " << tmp << endl;
+	cout << "암호화: " << encrypt << endl;
+	Crypt::Decrypt(encrypt, decrypt, sizeof(tmp));
+	cout << "복호화: " << decrypt << endl;
+}
