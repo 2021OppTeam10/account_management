@@ -40,3 +40,18 @@ BOOL Crypt::Decrypt(BYTE* source, BYTE* dest, DWORD length) {
 	}
 	return TRUE;
 }
+
+using namespace std;
+
+//void Crypt::test(string tmp)
+//{
+//	BYTE origin[];
+//	BYTE encrypt[10];
+//	BYTE decrypt[10];
+//
+//	ZeroMemory(encrypt, sizeof(encrypt));
+//	ZeroMemory(decrypt, sizeof(decrypt));
+//
+//	Crypt::Encrypt(origin, encrypt, sizeof(origin));
+//	Crypt::Decrypt(encrypt, decrypt, sizeof(origin));
+//}

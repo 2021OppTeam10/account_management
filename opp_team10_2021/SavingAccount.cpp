@@ -10,12 +10,13 @@ SavingAccount::SavingAccount(string accNum, string sourceAcc, unsigned balance, 
     mPwd = pwd;
 }
 
-SavingAccount::SavingAccount(string perName, string bnkName, unsigned int pwd)
+SavingAccount::SavingAccount(string sourceAcc, string perName, string bnkName, unsigned int pwd)
 {
     mBalance = 0;
     mPerName = perName;
     mBnkName = bnkName;
     mPwd = pwd;
+    mSourceAcc = sourceAcc;
     genAccNum();
 }
 

@@ -6,7 +6,6 @@
 #include <algorithm>
 #include "person.h"
 /*
-* 대상이 사람이름? 계좌?
 * 부족한 정보를 다시 묻는다
 */
 class Word {
@@ -26,7 +25,9 @@ private:
 	std::string findUsedSen(std::string sentence);
 	int findFunc();
 	void switFunc(std::string name, int funcChoiced, int amount);
-
+	void showManual();
+	void printAllAccount(std::string PerName, std::vector<Person> cusList);
+	Person whois(std::string accnum, std::vector<Person> cusList);
 public:
 	void start(std::vector<Person> cusList);
 };
