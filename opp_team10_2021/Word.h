@@ -12,7 +12,6 @@ class Word {
 private:
 	std::string inputString;
 	std::vector<std::string> tokenedString;
-	std::vector<std::string> usedWord;
 	std::vector<std::string> usedSen;
 	std::vector<std::string> StringToken(std::string inputString);
 	int mAmount = 0;

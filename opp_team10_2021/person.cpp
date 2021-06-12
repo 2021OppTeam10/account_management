@@ -5,30 +5,6 @@
 #pragma warning(disable : 4996)
 using namespace std;
 
-void upload() {
-	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
-	string upload = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/";
-	string cmd = "start /min /wait " + upload;
-	std::locale::global(std::locale("Korean"));
-	if (system(upload.c_str()) == 0)
-		cout << " " << "file" << "\t\t\t\t\t\t     -업로드 완료-" << endl;
-	else
-		cout << " " << "file" << "\t\t\t\t\t\t     -업로드 실패-" << endl;
-	cout << "--------------------------------------------------------------------------" << endl << endl;
-}
-
-void download() {
-	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
-	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .";
-	string cmd = "start /wait /min " + download;
-	std::locale::global(std::locale("Korean"));
-	if (system(download.c_str()) == 0)
-		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
-	else
-		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 실패-" << endl;
-	cout << "--------------------------------------------------------------------------" << endl << endl;
-}
-
 void Person::genPerNum()
 {
 	random_device rd;
@@ -230,11 +206,9 @@ void Person::savePer(int perOrder)
 	}
 	tmp = "start /wait /min ssh -o StrictHostKeyChecking=no -i id_rsa -p 8080 cppproj@1.225.217.57 rm -r ./customer/*";
 	system(tmp.c_str());
-	upload();
 }
 
 void Person::loadPer(int perOrder, string perNum) {
-	//download();
 	string filename = "./\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder);
 	string accNum;
 	string balance = "0";
