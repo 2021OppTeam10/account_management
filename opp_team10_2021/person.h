@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
+#include <fstream>
+#include <Windows.h>
 #include "SavingAccount.h"
 #include "DepositAccount.h"
 #include "LoanAccount.h"

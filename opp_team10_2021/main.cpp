@@ -1,50 +1,37 @@
-/*
-* TODO
-* 1. & 추가
-* 3. 파일입출력 try-catch
-* 비밀번호 치면 바로 * 변환
-
-*/
-#include <iostream>
 #include <string>
 #include <vector>
-#include <fstream>
-#include <Windows.h>
 #include <ctime>
-
-#include "Word.h"
 #include "person.h"
+#include "Word.h"
 
 using namespace std;
 
 vector<Person> mainLoad() {
-	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
 	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .";
 	string cmd = "start /wait /min " + download;
 	std::locale::global(std::locale("Korean"));
-	if (system(download.c_str()) == 0)
-		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
+	if (system(cmd.c_str()) == 0)
+		cout << "-다운로드 완료-" << endl;
 	else
-		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 실패-" << endl;
-	cout << "--------------------------------------------------------------------------" << endl << endl;
+		cout << "-다운로드 실패-" << endl;
 	vector<Person> result;
 	string name;
 	string num;
 	int count = 0;
-	ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
-	if (!is.is_open())
-		return result;
-	do
+	while (true)
 	{
+		ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
+		if (!is.is_open()) {
+			break;
+		}
 		getline(is, num);
 		getline(is, name);
 		Person tmp(name, num);
 		tmp.loadPer(count, num);
-		is.close();
 		result.push_back(tmp);
 		count++;
-		ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
-	} while (is.is_open());
+		is.close();
+	}
 	return result;
 }
 
@@ -62,11 +49,6 @@ int main() {
 	//cusList.push_back(tmp);
 	//cusList.push_back(tmp2);
 	//cusList.push_back(tmp3);
-	
-	for (int i = 0; i < cusList.size(); i++)
-	{
-		cusList[i].savePer(i);
-	}
 	for (auto i : cusList)
 		i.dailyInterest();
 	Word myWord;

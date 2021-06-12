@@ -1,7 +1,36 @@
 #include "Word.h"
-#include "person.h"
 
 using namespace std;
+
+vector<Person> wordLoad() {
+	cout << "다운로드 처리중..." << endl;
+	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .";
+	string cmd = "start /wait /min " + download;
+	std::locale::global(std::locale("Korean"));
+	if (system(cmd.c_str()) == 0)
+		cout << "-다운로드 완료-" << endl;
+	else
+		cout << "-다운로드 실패-" << endl;
+	vector<Person> result;
+	string name;
+	string num;
+	int count = 0;
+	while (true)
+	{
+		ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
+		if (!is.is_open()) {
+			break;
+		}
+		getline(is, num);
+		getline(is, name);
+		Person tmp(name, num);
+		tmp.loadPer(count, num);
+		result.push_back(tmp);
+		count++;
+		is.close();
+	}
+	return result;
+}
 
 int Word::findFunc() {
 	vector<string> funcList = { "입금", "출금", "송금", "계좌", "새로", "대출" };
@@ -71,6 +100,12 @@ const std::string Word::getName() {
 			result += i.substr(0, nPos);
 			break;
 		}
+		nPos = i.find("원");
+		if (nPos != string::npos && nPos != 0 && nPos != -1)
+		{
+			mAmount = stoi(i.substr(0, nPos));
+			break;
+		}
 	}
 	return result;
 }
@@ -110,12 +145,13 @@ void Word::addUsedSen(string sentence) {
 }
 
 string Word::findUsedSen(string sentence) {
-	int tmp = 0;
-	for (size_t i = 0; i < usedSen.size(); i++)
+	for (auto i : usedSen)
 	{
-
+		if (i.find(sentence) != string::npos) {
+			return i;
+		}
 	}
-	return usedSen[tmp];
+	return "";
 }
 
 void Word::switFunc(string name, int funcChoiced, int amount) {
@@ -152,7 +188,7 @@ void Word::printAllAccount(string PerName, vector<Person> cusList)
 	vector<DepositAccount> tDep;
 	vector<SavingAccount> tSav;
 	PerName.erase(PerName.begin());
-	cout << "이름 : " << PerName;
+	cout << "이름 : " << PerName << endl;
 	for (auto i : cusList) {
 		if (PerName == i.getname()) {
 			tDep = i.getDepAcc();
@@ -164,8 +200,6 @@ void Word::printAllAccount(string PerName, vector<Person> cusList)
 				cout << "적금계좌 : " << tSav[j].getAccNum() << endl;
 			}
 		}
-		else
-			cout << "이름이 존재하지 않습니다." << endl;
 	}
 }
 
@@ -178,6 +212,10 @@ Person Word::whois(std::string accnum, std::vector<Person> cusList)
 		try
 		{
 			name = cusList[k++].getDepAcc(accnum).getPerName();
+			if (name != "")
+			{
+				break;
+			}
 		}
 		catch (const invalid_argument& e)
 		{
@@ -196,17 +234,19 @@ Person Word::whois(std::string accnum, std::vector<Person> cusList)
 void Word::start(std::vector<Person> cusList)
 {
 	LoadUsed();
+	int c;
 	while (getInput())
 	{
+		cusList = wordLoad();
+		int amount = mAmount;
 		string name = getName();
 		int funcChoiced = findFunc();
-		int amount = mAmount;
 		if (amount != 1 && (0 <= funcChoiced && funcChoiced <= 2)) // 입금 송금 출금
 		{
 			if (name[0] == '1') // 계좌가 대상
 			{
 				printAllAccount(name, cusList);
-				cout << "원하는 계좌번호로 입력하세요.";
+				cout << "원하는 계좌번호로 입력하세요." << endl;
 			}
 			else
 			{
@@ -237,34 +277,36 @@ void Word::start(std::vector<Person> cusList)
 			}
 			else if (funcChoiced == 1 && name[0] == '1') // 추가 + 이름 입력했으면
 			{
+				name.erase(name.begin());
 				for (auto i : cusList)
 				{
 					if (i.getname() == name) {
-						name.erase(name.begin());
 						string tin;
 						string tin2;
 						unsigned tp;
 						bool isEnd = false;
 						cout << "정기 적금과 보통 예금 중에서 어떤 것을 추가할까요?" << endl;
 						cin >> tin;
+						cin.ignore();
 						cout << "은행이름을 입력하세요" << endl;
 						cin >> tin2;
+						cin.ignore();
 						cout << "비밀번호를 입력하세요" << endl;
 						cin >> tp;
+						cin.ignore();
 						while (!isEnd)
 						{
-							cout << "정기 적금과 보통 예금 중에서 어떤 것을 추가할까요?" << endl;
-							cin >> tin;
-							if (tin.find("예금"))
+							if (tin.find("예금") != string::npos)
 							{
 								DepositAccount tmp(name, tin2, tp);
 								i.addDepAcc(tmp);
 								isEnd = true;
 							}
-							else if (tin.find("적금"))
+							else if (tin.find("적금") != string::npos)
 							{
 								cout << "출금 대상계좌는 무엇으로 할까요?" << endl;
 								cin >> tin;
+								cin.ignore();
 								SavingAccount tmp(tin, name, tin2, tp);
 								i.addSavAcc(tmp);
 								isEnd = true;
@@ -280,8 +322,8 @@ void Word::start(std::vector<Person> cusList)
 			}
 			else
 			{
-				cout << "계좌 삭제를 원하시면 \"(계좌번호)으로된 계좌를 삭제해줘\"를 입력하세요" << endl;
-				cout << "계좌 추가를 원하시면 \"(이름)에게 계좌를 추가해줘\"를 입력하세요" << endl;
+				cout << "계좌 삭제를 원하시면 \"계좌를 (계좌번호)으로 삭제해줘\"를 입력하세요" << endl;
+				cout << "계좌 추가를 원하시면 \"계좌를 (이름)에게 추가해줘\"를 입력하세요" << endl;
 			}
 		}
 		else if (funcChoiced == 4) //새로
@@ -299,10 +341,12 @@ void Word::start(std::vector<Person> cusList)
 			else if (tmpSS == "아니오")
 			{
 				cout << "작업을 취소합니다." << endl;
+				continue;
 			}
 			else
 			{
 				cout << "작업을 취소합니다." << endl;
+				continue;
 			}
 		}
 		else if (funcChoiced == 5) //대출
@@ -328,8 +372,10 @@ void Word::start(std::vector<Person> cusList)
 						int amt;
 						cout << "얼마를 갚으실 건가요?" << endl;
 						cin >> amt;
+						cin.ignore();
 						cout << "출금하실 예금 계좌번호를 입력해주세요" << endl;
 						cin >> dest;
+						cin.ignore();
 						i.getLoan().Repayment(i.getDepAcc(dest), amount);
 						break;
 					}
@@ -344,6 +390,7 @@ void Word::start(std::vector<Person> cusList)
 						int amt;
 						cout << "얼마를 빌리실 건가요?" << endl;
 						cin >> amt;
+						cin.ignore();
 						i.getLoan().addLoan(amt);
 						break;
 					}
@@ -351,13 +398,20 @@ void Word::start(std::vector<Person> cusList)
 			}
 		}
 		else {
-			int tmp = 1;
 			string tmpS = findUsedSen(inputString);
 			while (1)
 			{
+				if (tmpS == "")
+				{
+					cout << "입력오류" << endl;
+					cout << "수행할 수 있는 주요 기능은 다음과 같습니다" << endl;
+					showManual();
+					break;
+				}
 				cout << tmpS << "를 실행할까요?" << endl;
-				getInput();
-				string tmpSS = inputString;
+				string tmpSS;
+				cout << "네 / 아니오 > ";
+				getline(cin, tmpSS);
 				if (tmpSS == "네")
 				{
 					setTokenedString(tmpS);
@@ -374,9 +428,23 @@ void Word::start(std::vector<Person> cusList)
 				else
 				{
 					cout << "입력오류" << endl;
+					cout << "수행할 수 있는 주요 기능은 다음과 같습니다" << endl;
+					showManual();
 				}
 			}
 		}
+		cout << "업로드 처리중..." << endl;
+		c = 0;
+		for (auto i : cusList)
+		{
+			i.savePer(c++);
+		}
+		string upload = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/";
+		string cmd = "start /min /wait " + upload;
+		std::locale::global(std::locale("Korean"));
+		if (system(cmd.c_str()) == 0)
+			cout << "-업로드 완료-" << endl;
+		else
+			cout << "-업로드 실패-" << endl;
 	}
 }
-
