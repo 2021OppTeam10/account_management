@@ -7,7 +7,7 @@ using namespace std;
 
 void upload() {
 	cout << "------------------------------< UPLOAD FILE >-----------------------------" << endl;
-	string upload = "scp -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/";
+	string upload = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/";
 	string cmd = "start /min /wait " + upload;
 	std::locale::global(std::locale("Korean"));
 	if (system(upload.c_str()) == 0)
@@ -19,10 +19,10 @@ void upload() {
 
 void download() {
 	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
-	string download = "scp -l 2000 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .\\";
+	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .";
 	string cmd = "start /wait /min " + download;
 	std::locale::global(std::locale("Korean"));
-	if (system(cmd.c_str()) == 0)
+	if (system(download.c_str()) == 0)
 		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
 	else
 		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 실패-" << endl;
@@ -180,7 +180,6 @@ LoanAccount& Person::getLoan()
 
 void Person::dailyInterest()
 {
-	{
 		if (getDate()) {
 			for (auto i : mOwnedSavAcc) {
 				if (i.getsavingmonth() <= 0) {
@@ -196,23 +195,21 @@ void Person::dailyInterest()
 			}
 			loan.deposit((LOAN_RATE / 100) * loan.getBalance());//대출
 		}
-	}
 }
 
 void Person::savePer(int perOrder)
 {
 	int accOrder = 0;
-	string tmp = "md customer";
-	if (system(tmp.c_str()))
-		system("cls");
+	string tmp = "md customer 2>nul";
+	system(tmp.c_str());
 
 	tmp = "md .\\customer\\";
-	tmp += to_string(perOrder+1);
-	if (system(tmp.c_str()))
-		system("cls");
+	tmp += to_string(perOrder);
+	tmp += " 2> nul ";
+	system(tmp.c_str());
 
-	ofstream os(".\\customer\\" + to_string(perOrder+1) + "\\" + to_string(perOrder+1));
-	ofstream os2(".\\customer\\" + to_string(perOrder+1) + "\\" + mPerNum + "p");
+	ofstream os(".\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder));
+	ofstream os2(".\\customer\\" + to_string(perOrder) + "\\" + mPerNum + "p");
 	os << mPerNum << '\n';
 	os << mName << '\n';
 	os << loan.getAccNum() << "\n";
@@ -237,7 +234,7 @@ void Person::savePer(int perOrder)
 }
 
 void Person::loadPer(int perOrder, string perNum) {
-	download();
+	//download();
 	string filename = "./\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder);
 	string accNum;
 	string balance = "0";
@@ -255,7 +252,7 @@ void Person::loadPer(int perOrder, string perNum) {
 		getline(is1, bnkName);
 		is1.close();
 
-		filename = "./\\customer\\" + to_string(perOrder+1) + "\\" + perNum + "p";
+		filename = "./\\customer\\" + to_string(perOrder) + "\\" + perNum + "p";
 		ifstream is(filename);
 		getline(is, pwd);
 		is.close();
@@ -315,7 +312,7 @@ bool Person::loadAcc(int perOrder, int accOrder) {
 	unsigned int pwd;
 	try
 	{
-		ifstream is(".\\customer\\" + to_string(perOrder+1) + "\\A" + to_string(accOrder+1));
+		ifstream is(".\\customer\\" + to_string(perOrder) + "\\A" + to_string(accOrder));
 		if (!is.is_open())
 			return false;
 		is >> accNum;
@@ -325,7 +322,7 @@ bool Person::loadAcc(int perOrder, int accOrder) {
 		is >> sourceAcc;
 		is.close();
 
-		ifstream is2(".\\customer\\" + to_string(perOrder+1) + "\\AP" + to_string(accOrder+1));
+		ifstream is2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
 		is2 >> pwd;
 		is2.close();
 

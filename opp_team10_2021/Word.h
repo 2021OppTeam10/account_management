@@ -17,7 +17,7 @@ private:
 	std::vector<std::string> StringToken(std::string inputString);
 	int mAmount = 0;
 	void LoadUsed();
-	const void getInput();
+	bool getInput();
 	const std::string getName();
 	void setTokenedString(std::string tmp);
 	void saveWord();

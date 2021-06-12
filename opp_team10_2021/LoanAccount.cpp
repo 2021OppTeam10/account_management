@@ -30,6 +30,10 @@ void LoanAccount::Repayment(DepositAccount& destAcc, int amount)
     this->withdrawal(amount);
 }
 
+void LoanAccount::addLoan(int amount) {
+    this->mBalance += amount;
+}
+
 const string LoanAccount::getAccountType()
 {
 	return "¥Î√‚";

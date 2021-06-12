@@ -19,10 +19,16 @@ int Word::findFunc() {
 	return funcChoiced;
 }
 
-const void Word::getInput()
+bool Word::getInput()
 {
+	cout << "명령어 입력 > ";
 	getline(cin, inputString);
+	if (inputString == "종료")
+	{
+		return false;
+	}
 	tokenedString = StringToken(inputString);
+	return true;
 }
 
 void Word::setTokenedString(std::string tmp)
@@ -145,6 +151,7 @@ void Word::printAllAccount(string PerName, vector<Person> cusList)
 {
 	vector<DepositAccount> tDep;
 	vector<SavingAccount> tSav;
+	PerName.erase(PerName.begin());
 	cout << "이름 : " << PerName;
 	for (auto i : cusList) {
 		if (PerName == i.getname()) {
@@ -186,16 +193,14 @@ Person Word::whois(std::string accnum, std::vector<Person> cusList)
 	}
 }
 
-void Word::start(vector<Person> cusList)
+void Word::start(std::vector<Person> cusList)
 {
 	LoadUsed();
-	getInput();
-	string name = getName();
-	int funcChoiced = findFunc();
-	int amount = mAmount;
-
-	while (true)
+	while (getInput())
 	{
+		string name = getName();
+		int funcChoiced = findFunc();
+		int amount = mAmount;
 		if (amount != 1 && (0 <= funcChoiced && funcChoiced <= 2)) // 입금 송금 출금
 		{
 			if (name[0] == '1') // 계좌가 대상
@@ -329,11 +334,20 @@ void Word::start(vector<Person> cusList)
 						break;
 					}
 				}
-				
+
 			}
 			else if (funcChoiced == 1) // 추가
 			{
-				cout << "대출추가" << endl;
+				for (auto i : cusList)
+				{
+					if (i.getname() == name) {
+						int amt;
+						cout << "얼마를 빌리실 건가요?" << endl;
+						cin >> amt;
+						i.getLoan().addLoan(amt);
+						break;
+					}
+				}
 			}
 		}
 		else {
@@ -364,5 +378,5 @@ void Word::start(vector<Person> cusList)
 			}
 		}
 	}
-	
 }
+

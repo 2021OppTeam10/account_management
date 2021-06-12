@@ -18,11 +18,20 @@
 using namespace std;
 
 vector<Person> mainLoad() {
+	cout << "-----------------------------< DOWNLOAD FILE >----------------------------" << endl;
+	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .";
+	string cmd = "start /wait /min " + download;
+	std::locale::global(std::locale("Korean"));
+	if (system(download.c_str()) == 0)
+		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 완료-" << endl;
+	else
+		cout << " " << "file" << "\t\t\t\t\t\t     -다운로드 실패-" << endl;
+	cout << "--------------------------------------------------------------------------" << endl << endl;
 	vector<Person> result;
 	string name;
 	string num;
 	int count = 0;
-	ifstream is(".\\customer\\" + to_string(count+1) + "\\" + to_string(count+1));
+	ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
 	if (!is.is_open())
 		return result;
 	do
@@ -34,13 +43,12 @@ vector<Person> mainLoad() {
 		is.close();
 		result.push_back(tmp);
 		count++;
-		ifstream is(".\\customer\\" + to_string(count+1) + "\\" + to_string(count+1));
+		ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
 	} while (is.is_open());
 	return result;
 }
 
 int main() {
-
 	vector<Person> cusList = mainLoad(); // customer list
 	//Person tmp("배재익");
 	//Person tmp2("홍석원");

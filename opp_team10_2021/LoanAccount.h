@@ -11,5 +11,6 @@ public:
 	LoanAccount(std::string accNum, unsigned balance, std::string perName, std::string bnkName, unsigned int pwd);
 	LoanAccount(std::string perName, std::string bnkName, unsigned int pwd);
 	virtual void Repayment(DepositAccount& destAcc,int amount);
+	void addLoan(int amount);
 	virtual const std::string getAccountType() override;
 };
