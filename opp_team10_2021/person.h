@@ -36,4 +36,6 @@ public:
 	void saveAcc(DepositAccount account, int perOrder, int accOrder);
 	void saveAcc(SavingAccount account, int perOrder, int accOrder);
 	bool loadAcc(int perOrder, int accOrder);
+	std::string Encry(unsigned int Pwd);
+	unsigned int Decry(std::string encrypt);
 };
