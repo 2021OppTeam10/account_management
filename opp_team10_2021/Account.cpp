@@ -3,6 +3,10 @@
 #include "person.h"
 
 using namespace std;
+const INT C1 = 52845;
+const INT C2 = 22719;
+const INT KEY = 78695;
+#pragma warning(disable : 4996)
 
 void Account::deposit(int amount) {
 	this->mBalance += amount;
@@ -15,7 +19,7 @@ bool Account::withdrawal(int amount) {
 	}
 	else
 	{
-		cout << "ÀÜ¾×ÀÌ ºÎÁ·ÇÕ´Ï´Ù" << endl;
+		cout << "ìž”ì•¡ì´ ë¶€ì¡±í•©ë‹ˆë‹¤" << endl;
 		return false;
 	}
 }
@@ -26,31 +30,31 @@ void Account::dailymonth() {
 
 void Account::printAccount() {
 	cout << "-----------------------------< ACCOUNT INFO >-----------------------------" << endl;
-	cout << "°èÁÂ Á¾·ù : " << this->getAccountType() << endl;
-	cout << "ÀÌ¸§ : " << mPerName << endl;
-	cout << "ÀºÇà¸í : " << mBnkName << endl;
-	cout << "°èÁÂ¹øÈ£ : " << mAccNum << endl;
-	cout << "ÀÜ¾× : " << mBalance << endl;
-	cout << "¿¹±ÝÀÌÀ² : " << DEPOSIT_RATE << "%" << endl << endl;
+	cout << "ê³„ì¢Œ ì¢…ë¥˜ : " << this->getAccountType() << endl;
+	cout << "ì´ë¦„ : " << mPerName << endl;
+	cout << "ì€í–‰ëª… : " << mBnkName << endl;
+	cout << "ê³„ì¢Œë²ˆí˜¸ : " << mAccNum << endl;
+	cout << "ìž”ì•¡ : " << mBalance << endl;
+	cout << "ì˜ˆê¸ˆì´ìœ¨ : " << DEPOSIT_RATE << "%" << endl << endl;
 	cout << "--------------------------------------------------------------------------" << endl << endl;
 }
 
-const string Account::getAccNum() {//°èÁÂ¹øÈ£
+const string Account::getAccNum() {//ê³„ì¢Œë²ˆí˜¸
 
 	return mAccNum;
 }
 
-const unsigned int Account::getBalance() {//ÀÜ¾×
+const unsigned int Account::getBalance() {//ìž”ì•¡
 
 	return mBalance;
 }
 
-const string Account::getPerName() {//»ç¶÷ÀÌ¸§
+const string Account::getPerName() {//ì‚¬ëžŒì´ë¦„
 
 	return mPerName;
 }
 
-const string Account::getBnkName() {//ÀºÇà¸í
+const string Account::getBnkName() {//ì€í–‰ëª…
 
 	return mBnkName;
 }
@@ -85,7 +89,7 @@ bool Account::isCorrect(unsigned int inPwd)
 {
 	if (mPwd == 0)
 	{
-		cout << "ºñ¹Ð¹øÈ£¸¦ »ý¼ºÇØÁÖ¼¼¿ä";
+		cout << "ë¹„ë°€ë²ˆí˜¸ë¥¼ ìƒì„±í•´ì£¼ì„¸ìš”";
 		cin >> mPwd;
 	}
 	return inPwd == mPwd ? true : false;
@@ -98,4 +102,38 @@ void Account::operator=(const Account& rhs)
 	this->mPerName = rhs.mPerName;
 	this->mBnkName = rhs.mBnkName;
 	this->mPwd = rhs.mPwd;
+	this->mcrypt = rhs.mcrypt;
+}
+string Account::getmcrypt() {
+	return mcrypt;
+}
+
+BOOL Account::Encrypt(char* source, char* dest, DWORD length) {
+	DWORD i;
+	INT key = KEY;
+	if (!source || !dest || length <= 0) {
+		return FALSE;
+	}
+	for (i = 0; i < length; i++)
+	{
+		dest[i] = source[i] ^ key >> 8;
+		key = (dest[i] + key) * C1 + C2;
+	}
+	return TRUE;
+}
+
+BOOL Account::Decrypt(char* source, char* dest, DWORD length) {
+	DWORD i;
+	char previousBlock;
+	INT key = KEY;
+	if (!source || !dest || length <= 0) {
+		return FALSE;
+	}
+	for (i = 0; i < length; i++)
+	{
+		previousBlock = source[i];
+		dest[i] = source[i] ^ key >> 8;
+		key = (previousBlock + key) * C1 + C2;
+	}
+	return TRUE;
 }
