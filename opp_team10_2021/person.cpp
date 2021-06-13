@@ -43,10 +43,10 @@ void Person::addDepAcc(DepositAccount newACC) {
 	mOwnedDepAcc.push_back(newACC);
 }
 
-void Person::rmAcc(string accNum) { // GUI ´Ùµë±â~
+void Person::rmAcc(string accNum) { // GUI ë‹¤ë“¬ê¸°~
 	for (int i = 0; i < mOwnedSavAcc.size(); i++) {
 		if (mOwnedSavAcc[i].getAccNum().compare(accNum) == 0) {
-			cout << "ÀÔ±ÝÇÏ½Ç °èÁÂ (Ãë¼Ò½Ã ¼ýÀÚ 1) : ";
+			cout << "ìž…ê¸ˆí•˜ì‹¤ ê³„ì¢Œ (ì·¨ì†Œì‹œ ìˆ«ìž 1) : ";
 			string num;
 			getline(cin, num);
 			if (num == "1")
@@ -54,22 +54,22 @@ void Person::rmAcc(string accNum) { // GUI ´Ùµë±â~
 			for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 				if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(num) == 0) {
 					mOwnedDepAcc[i].deposit(mOwnedSavAcc[i].getBalance());
-					cout << accNum << "Á¤±âÀû±Ý°èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << endl;
+					cout << accNum << "ì •ê¸°ì ê¸ˆê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤." << endl;
 					mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
 					
 					return;
 				}
 				else {
 					while (1) {
-						cout << "Àß¸øµÈ °èÁÂ¹øÈ£ ÀÔ´Ï´Ù." << endl;
-						cout << "ÀÔ±ÝÇÏ½Ç °èÁÂ (Ãë¼Ò½Ã ¼ýÀÚ 1): ";
+						cout << "ìž˜ëª»ëœ ê³„ì¢Œë²ˆí˜¸ ìž…ë‹ˆë‹¤." << endl;
+						cout << "ìž…ê¸ˆí•˜ì‹¤ ê³„ì¢Œ (ì·¨ì†Œì‹œ ìˆ«ìž 1): ";
 						getline(cin, num);
 						if (num == "1")
 							return;
 						for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 							if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(num) == 0) {
 								mOwnedDepAcc[i].deposit(mOwnedSavAcc[i].getBalance());
-								cout << accNum << "  Á¤±âÀû±Ý°èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << endl;
+								cout << accNum << "  ì •ê¸°ì ê¸ˆê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤." << endl;
 								mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
 								return;
 							}
@@ -83,12 +83,12 @@ void Person::rmAcc(string accNum) { // GUI ´Ùµë±â~
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
 		if (mOwnedDepAcc[i].DepositAccount::getAccNum().compare(accNum) == 0) {
 			//
-			cout << accNum << "%s º¸Åë¿¹±Ý°èÁÂ°¡ ÇØÁö µÇ¾ú½À´Ï´Ù." << endl;
+			cout << accNum << "%s ë³´í†µì˜ˆê¸ˆê³„ì¢Œê°€ í•´ì§€ ë˜ì—ˆìŠµë‹ˆë‹¤." << endl;
 			mOwnedDepAcc.erase(mOwnedDepAcc.begin() + i);
 			return;
 		}
 	}
-	cout << accNum << "  °èÁÂ´Â Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." << endl;;
+	cout << accNum << "  ê³„ì¢ŒëŠ” ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤." << endl;;
 	return;
 }
 
@@ -98,7 +98,7 @@ SavingAccount& Person::getSavAcc(string accNum) {
 			return mOwnedSavAcc[i];
 		}
 	}
-	throw invalid_argument("Á¸ÀçÇÏÁö ¾Ê´Â °èÁÂ");
+	throw invalid_argument("ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ê³„ì¢Œ");
 }
 DepositAccount& Person::getDepAcc(string accNum) {
 	for (int i = 0; i < mOwnedDepAcc.size(); i++) {
@@ -106,7 +106,7 @@ DepositAccount& Person::getDepAcc(string accNum) {
 			return mOwnedDepAcc[i];
 		}
 	}
-	throw invalid_argument("Á¸ÀçÇÏÁö ¾Ê´Â °èÁÂ");
+	throw invalid_argument("ì¡´ìž¬í•˜ì§€ ì•ŠëŠ” ê³„ì¢Œ");
 }
 
 void Person::setDate()
@@ -165,12 +165,12 @@ void Person::dailyInterest()
 				}
 				int tAmount = (SAVE_RATE / 100) * i.getBalance();
 				getDepAcc(i.getSourceAcc()).withdrawal(tAmount);
-				i.deposit(tAmount);									//Àû±Ý
+				i.deposit(tAmount);									//ì ê¸ˆ
 			}
 			for (auto i : mOwnedDepAcc) {
-				i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//¿¹±Ý
+				i.deposit((DEPOSIT_RATE / 100) * i.getBalance());	//ì˜ˆê¸ˆ
 			}
-			loan.deposit((LOAN_RATE / 100) * loan.getBalance());//´ëÃâ
+			loan.deposit((LOAN_RATE / 100) * loan.getBalance());//ëŒ€ì¶œ
 		}
 }
 
@@ -193,7 +193,7 @@ void Person::savePer(int perOrder)
 	os << loan.getBalance() << "\n";
 	os << loan.getPerName() << "\n";
 	os << loan.getBnkName() << "\n";
-	os2 << loan.getPwd() << "\n";
+	os2 << loan.getmcrypt() << "\n";
 	os.close();
 	os2.close();
 
@@ -215,7 +215,8 @@ void Person::loadPer(int perOrder, string perNum) {
 	string balance = "0";
 	string perName;
 	string bnkName;
-	string pwd = "0";
+	unsigned int pwd;
+	string crypt;
 	try
 	{
 		ifstream is1(filename);
@@ -229,15 +230,16 @@ void Person::loadPer(int perOrder, string perNum) {
 
 		filename = "./\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder) + "p";
 		ifstream is(filename);
-		getline(is, pwd);
+		getline(is, crypt);
+		pwd = Decry(crypt);
 		is.close();
 	}
 	catch (...)
 	{
-		cout << "******************ÆÄÀÏÀÔÃâ·Â ¿À·ù!******************" << endl;
+		cout << "******************íŒŒì¼ìž…ì¶œë ¥ ì˜¤ë¥˜!******************" << endl;
 		return;
 	}
-	LoanAccount tLoan(accNum, stoi(balance), perName, bnkName, stoi(pwd));
+	LoanAccount tLoan(accNum, stoi(balance), perName, bnkName, pwd);
 	loan = tLoan;
 	for (int i = 0; loadAcc(perOrder, i); i++) {}
 }
@@ -250,7 +252,7 @@ void Person::saveAcc(DepositAccount account, int perOrder, int accOrder) {
 	os << account.getBalance() << "\n";
 	os << account.getPerName() << "\n";
 	os << account.getBnkName() << "\n";
-	os2 << account.getPwd() << "\n";
+	os2 << account.getmcrypt() << "\n";
 	os.close();
 	os2.close();
 }
@@ -265,14 +267,14 @@ void Person::saveAcc(SavingAccount account, int perOrder, int accOrder) {
 		os << account.getBalance() << "\n";
 		os << account.getPerName() << "\n";
 		os << account.getBnkName() << "\n";
-		os2 << account.getPwd() << "\n";
+		os2 << account.getmcrypt() << "\n";
 		os << account.getSourceAcc() << "\n";
 		os.close();
 		os2.close();
 	}
 	catch (...)
 	{
-		cout << "******************ÆÄÀÏÀÔÃâ·Â ¿À·ù!******************" << endl;
+		cout << "******************íŒŒì¼ìž…ì¶œë ¥ ì˜¤ë¥˜!******************" << endl;
 		return;
 	}
 }
@@ -283,6 +285,7 @@ bool Person::loadAcc(int perOrder, int accOrder) {
 	string perName;
 	string bnkName;
 	string sourceAcc = "";
+	string crypt;
 	unsigned int balance;
 	unsigned int pwd;
 	try
@@ -298,7 +301,8 @@ bool Person::loadAcc(int perOrder, int accOrder) {
 		is.close();
 
 		ifstream is2(".\\customer\\" + to_string(perOrder) + "\\AP" + to_string(accOrder));
-		is2 >> pwd;
+		is2 >> crypt;
+		pwd = Decry(crypt);
 		is2.close();
 
 		if (sourceAcc == "") {
@@ -313,8 +317,34 @@ bool Person::loadAcc(int perOrder, int accOrder) {
 	}
 	catch (...)
 	{
-		cout << "******************ÆÄÀÏÀÔÃâ·Â ¿À·ù!******************" << endl;
+		cout << "******************íŒŒì¼ìž…ì¶œë ¥ ì˜¤ë¥˜!******************" << endl;
 		return false;
 	}
 
+}
+
+string Person::Encry(unsigned int Pwd) {
+	char tmp[10];
+	sprintf_s(tmp, "%d", Pwd);
+	char encrypt[10];
+
+	ZeroMemory(encrypt, sizeof(encrypt));
+
+	Account::Encrypt(tmp, encrypt, sizeof(tmp));
+	string str(encrypt);
+
+	return str;
+}
+
+unsigned int Person::Decry(string encrypt) {
+	char tmp[10];
+	char* ptr;
+	strcpy(tmp, encrypt.c_str());
+
+	char decrypt[10];
+	ZeroMemory(decrypt, sizeof(decrypt));
+	Account::Decrypt(tmp, decrypt, sizeof(decrypt));
+	auto decryint = strtol(decrypt, &ptr, 10);
+
+	return decryint;
 }
