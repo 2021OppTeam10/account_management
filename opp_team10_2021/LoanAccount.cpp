@@ -11,7 +11,14 @@ LoanAccount::LoanAccount()
 }
 
 LoanAccount::LoanAccount(std::string accNum, unsigned balance, std::string perName, std::string bnkName, unsigned int pwd) {
-    mAccNum = accNum;
+    if (accNum == "NULL")
+    {
+        genAccNum();
+    }
+    else
+    {
+        mAccNum = accNum;
+    }
     mBalance = balance;
     mPerName = perName;
     mBnkName = bnkName;

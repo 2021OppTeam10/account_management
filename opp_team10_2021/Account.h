@@ -14,12 +14,11 @@ protected:
     std::string mBnkName;
     unsigned int mBalance;
     unsigned int mPwd;
-    std::string mcrypt;
     int savingmonth;
 public:
     virtual const std::string getAccountType() = 0;
-    virtual void deposit(int amount); // √Ä√î¬±√ù
-    virtual bool withdrawal(int amount); // √É√¢¬±√ù
+    virtual void deposit(int amount); // ¿‘±›
+    virtual bool withdrawal(int amount); // √‚±›
     virtual void dailymonth();
     void printAccount();
     const std::string getAccNum();
@@ -33,5 +32,4 @@ public:
     void operator=(const Account& rhs);
     static BOOL Encrypt(char* source, char* dest, DWORD length);
     static BOOL Decrypt(char* source, char* dest, DWORD length);
-    std::string getmcrypt();
 };

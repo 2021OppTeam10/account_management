@@ -22,12 +22,12 @@ private:
 	void saveWord();
 	void addUsedSen(std::string sentence);
 	std::string findUsedSen(std::string sentence);
-	void switFunc(std::string accNum, int funcChoiced, int amount, std::vector<Person> cusList);
+	void switFunc(std::string accNum, int funcChoiced, int amount, std::vector<Person>& cusList);
 	int findFunc();
 	void showManual();
-	void printAllAccount(std::string PerName, std::vector<Person> cusList);
-	Person whois(std::string accnum, std::vector<Person> cusList);
-	void mainWork(std::vector<Person> cusList);
+	void printAllAccount(std::string PerName, std::vector<Person>& cusList);
+	Person whois(std::string accnum, std::vector<Person>& cusList);
+	void mainWork(std::vector<Person>& cusList);
 public:
-	void start(std::vector<Person> cusList);
+	void start(std::vector<Person>& cusList);
 };

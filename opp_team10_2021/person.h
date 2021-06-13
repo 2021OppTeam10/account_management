@@ -33,8 +33,8 @@ public:
 	void dailyInterest();
 	void savePer(int perOrder);
 	void loadPer(int perOrder, std::string perNum);
-	void saveAcc(DepositAccount account, int perOrder, int accOrder);
-	void saveAcc(SavingAccount account, int perOrder, int accOrder);
+	void saveAcc(DepositAccount& account, int perOrder, int accOrder);
+	void saveAcc(SavingAccount& account, int perOrder, int accOrder);
 	bool loadAcc(int perOrder, int accOrder);
 	std::string Encry(unsigned int Pwd);
 	unsigned int Decry(std::string encrypt);
