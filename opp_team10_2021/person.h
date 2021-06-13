@@ -27,8 +27,8 @@ public:
 	DepositAccount& getDepAcc(std::string accNum);
 	void setDate();
 	const bool getDate();
-	const std::vector<SavingAccount> getSavAcc();
-	const std::vector<DepositAccount> getDepAcc();
+	std::vector<SavingAccount>& getSavAcc();
+	std::vector<DepositAccount>& getDepAcc();
 	LoanAccount& getLoan();
 	void dailyInterest();
 	void savePer(int perOrder);

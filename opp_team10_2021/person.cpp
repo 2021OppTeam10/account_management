@@ -140,12 +140,12 @@ const bool Person::getDate() {
 	}
 }
 
-const std::vector<SavingAccount> Person::getSavAcc()
+std::vector<SavingAccount>& Person::getSavAcc()
 {
 	return mOwnedSavAcc;
 }
 
-const std::vector<DepositAccount> Person::getDepAcc()
+std::vector<DepositAccount>& Person::getDepAcc()
 {
 	return mOwnedDepAcc;
 }

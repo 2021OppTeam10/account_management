@@ -87,11 +87,6 @@ void Account::genAccNum()
 
 bool Account::isCorrect(unsigned int inPwd)
 {
-	if (mPwd == 0)
-	{
-		cout << "비밀번호를 생성해주세요";
-		cin >> mPwd;
-	}
 	return inPwd == mPwd ? true : false;
 }
 

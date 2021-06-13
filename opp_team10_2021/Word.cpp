@@ -93,7 +93,12 @@ const std::string Word::getName() {
 	string result;
 	for (auto i : tokenedString)
 	{
-		size_t nPos = i.find("번호");
+		size_t nPos = i.find("원 ");
+		if (nPos != string::npos && nPos != 0 && nPos != -1)
+		{
+			mAmount = stoi(i.substr(0, nPos));
+		}
+		 nPos = i.find("번호");
 		if (nPos != string::npos && nPos != 0 && nPos != -1)
 		{
 			result = '0';
@@ -120,11 +125,6 @@ const std::string Word::getName() {
 				result += i.substr(0, nPos);
 			}
 		}
-		nPos = i.find("원 ");
-		if (nPos != string::npos && nPos != 0 && nPos != -1)
-		{
-			mAmount = stoi(i.substr(0, nPos));
-		}
 	}
 	return result;
 }
@@ -136,7 +136,7 @@ vector<string> Word::StringToken(string inputString) {
 	{
 		spacePos = inputString.find(' ');
 		if (spacePos == -1)	spacePos = inputString.size();
-		result.push_back(inputString.substr(0, spacePos));
+		result.push_back(inputString.substr(0, spacePos+1));
 		inputString.erase(0, spacePos + 1);
 	}
 	return result;
@@ -176,25 +176,25 @@ string Word::findUsedSen(string sentence) {
 void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector<Person>& cusList)
 {
 	unsigned tp;
-	for (auto i : cusList)
+	for (int i = 0; i < cusList.size(); i++)
 	{
-		for (auto j : i.getDepAcc())
+		for (int j = 0; j < cusList[i].getDepAcc().size(); j++)
 		{
-			if (j.getAccNum() == accNum)
+			if (cusList[i].getDepAcc()[j].getAccNum() == accNum)
 			{
 				cout << "계좌 비밀번호를 입력해주세요" << endl;
 				cin >> tp;
 				cin.ignore();
-				if (j.isCorrect(tp))
+				if (cusList[i].getDepAcc()[j].isCorrect(tp))
 				{
 					switch (funcChoiced)
 					{
 					case 0:
-						j.deposit(amount);
+						cusList[i].getDepAcc()[j].deposit(amount);
 						cout << accNum << "에게 " << amount << "원 입금처리" << endl;
 						break;
 					case 1:
-						if (j.withdrawal(amount))
+						if (cusList[i].getDepAcc()[j].withdrawal(amount))
 						{
 							cout << accNum << "에게 " << amount << "원 출금처리" << endl;
 							break;
@@ -231,7 +231,7 @@ void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector
 							if (tD.withdrawal(amount))
 							{
 								cout << accNum << "에게 " << amount << "원 출금처리" << endl;
-								j.deposit(amount);
+								cusList[i].getDepAcc()[j].deposit(amount);
 								cout << accNum << "에게 " << amount << "원 송금처리" << endl;
 								break;
 							}
@@ -253,7 +253,7 @@ void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector
 				}
 				break;
 			}
-			for (auto j : i.getSavAcc())
+			for (auto j : cusList[i].getSavAcc())
 			{
 				if (j.getAccNum() == accNum)
 				{
@@ -261,10 +261,7 @@ void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector
 					break;
 				}
 			}
-			cout << "대상 계좌가 올바르지 않습니다." << endl;
-			break;
 		}
-		break;
 	}
 }
 
@@ -353,7 +350,6 @@ void Word::mainWork(std::vector<Person>& cusList) {
 		}
 		else
 		{
-			saveWord();
 			name.erase(name.begin());
 			switFunc(name, funcChoiced, amount, cusList);
 		}
@@ -655,6 +651,7 @@ void Word::start(std::vector<Person>& cusList)
 	{
 		cusList = wordLoad();
 		mainWork(cusList);
+		saveWord();
 		cout << "\t\t\t\t\t\t\t\t\t\t\t\t업로드 처리중..." << endl;
 		c = 0;
 		for (int i = 0; i < cusList.size(); i++)
