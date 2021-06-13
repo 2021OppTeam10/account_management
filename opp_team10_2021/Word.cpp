@@ -91,20 +91,17 @@ const std::string Word::getName() {
 		{
 			result = '0';
 			result += i.substr(0, nPos);
-			break;
 		}
 		nPos = i.find("에게");
 		if (nPos != string::npos && nPos != 0 && nPos != -1)
 		{
 			result = '1';
 			result += i.substr(0, nPos);
-			break;
 		}
 		nPos = i.find("원");
 		if (nPos != string::npos && nPos != 0 && nPos != -1)
 		{
 			mAmount = stoi(i.substr(0, nPos));
-			break;
 		}
 	}
 	return result;
@@ -154,39 +151,99 @@ string Word::findUsedSen(string sentence) {
 	return "";
 }
 
-void Word::switFunc(string name, int funcChoiced, int amount, std::vector<Person> cusList) {
+void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector<Person> cusList)
+{
 	unsigned tp;
-	cout << "계좌 비밀번호를 입력해주세요" << endl;
-	cin >> tp;
-	cin.ignore();
 	for (auto i : cusList)
 	{
-		if (i.getname() == name) {
-			if (i.getLoan().isCorrect(tp)) {
-				switch (funcChoiced)
-				{//////////////////////////////////////////////////////////////////
-				case 0:
-					cout << name << "에게 " << amount << "원 입금처리" << endl;
+		for (auto j : i.getDepAcc())
+		{
+			if (j.getAccNum() == accNum)
+			{
+				cout << "계좌 비밀번호를 입력해주세요" << endl;
+				cin >> tp;
+				cin.ignore();
+				if (j.isCorrect(tp))
+				{
+					switch (funcChoiced)
+					{
+					case 0:
+						j.deposit(amount);
+						cout << accNum << "에게 " << amount << "원 입금처리" << endl;
+						break;
+					case 1:
+						if (j.withdrawal(amount))
+						{
+							cout << accNum << "에게 " << amount << "원 출금처리" << endl;
+							break;
+						}
+						else
+						{
+							break;
+						}
+					case 2:
+						DepositAccount tD("NULL", "NULL", 0);
+						string source;
+						cout << "돈을 출금해서 보내실 계좌를 입력하세요" << endl;
+						cin >> source;
+						cin.ignore();
+						bool isFind = false;
+						for (auto k : cusList)
+						{
+							for (auto s : k.getDepAcc())
+							{
+								if (s.getAccNum() == source)
+								{
+									tD = s;
+									isFind++;
+									break;
+								}
+							}
+							if (isFind)
+							{
+								break;
+							}
+						}
+						if (tD.getPerName() != "NULL")
+						{
+							if (tD.withdrawal(amount))
+							{
+								cout << accNum << "에게 " << amount << "원 출금처리" << endl;
+								j.deposit(amount);
+								cout << accNum << "에게 " << amount << "원 송금처리" << endl;
+								break;
+							}
+							else
+							{
+								break;
+							}
+						}
+						else {
+							cout << "대상 계좌가 올바르지 않습니다." << endl;
+							break;
+						}
+					}
+				}
+				else
+				{
+					cout << "비밀번호 입력 오류" << endl;
 					break;
-				case 1:
-					cout << name << "에게 " << amount << "원 출금처리" << endl;
-					break;
-				case 2:
-					cout << name << "에게 " << amount << "원 송금처리" << endl;
-					break;
-				default:
-					cout << "오류" << endl;
+				}
+				break;
+			}
+			for (auto j : i.getSavAcc())
+			{
+				if (j.getAccNum() == accNum)
+				{
+					cout << "적금 계좌는 직접 입급, 출금, 송금이 불가능합니다." << endl;
 					break;
 				}
 			}
-			else
-			{
-				cout << "비밀번호 입력 오류" << endl;
-				break;
-			}
+			cout << "대상 계좌가 올바르지 않습니다." << endl;
+			break;
 		}
+		break;
 	}
-	
 }
 
 void Word::showManual()
@@ -249,12 +306,12 @@ Person Word::whois(std::string accnum, std::vector<Person> cusList)
 }
 
 void Word::mainWork(std::vector<Person> cusList) {
-	int amount = mAmount;
 	string name = getName();
+	int amount = mAmount;
 	int funcChoiced = findFunc();
 	if (amount != 1 && (0 <= funcChoiced && funcChoiced <= 2)) // 입금 송금 출금
 	{
-		if (name[0] == '1') // 계좌가 대상
+		if (name[0] == '1') // 이름이 대상
 		{
 			printAllAccount(name, cusList);
 			cout << "원하는 계좌번호로 입력하세요." << endl;
@@ -284,7 +341,7 @@ void Word::mainWork(std::vector<Person> cusList) {
 		{
 			name.erase(name.begin());
 			try { whois(name, cusList).rmAcc(name); }
-			catch (const invalid_argument& e) { 
+			catch (const invalid_argument& e) {
 				cout << e.what() << endl;
 				return;
 			}
@@ -339,6 +396,13 @@ void Word::mainWork(std::vector<Person> cusList) {
 	else if (funcChoiced == 4) //새로
 	{
 		name.erase(name.begin());
+		for (auto i : cusList)
+		{
+			if (i.getname() == name) {
+				cout << "이미 존재하는 고객입니다." << endl;
+				return;
+			}
+		}
 		cout << "새로운 고객으로 " << name << "님을 추가할까요?" << endl;
 		getInput();
 		string tmpSS = inputString;
@@ -452,6 +516,7 @@ void Word::mainWork(std::vector<Person> cusList) {
 			getline(cin, tmpSS);
 			if (tmpSS == "네")
 			{
+				setTokenedString(tmpS);
 				mainWork(cusList);
 				return;
 			}

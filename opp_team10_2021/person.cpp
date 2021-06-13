@@ -56,6 +56,7 @@ void Person::rmAcc(string accNum) { // GUI 다듬기~
 					mOwnedDepAcc[i].deposit(mOwnedSavAcc[i].getBalance());
 					cout << accNum << "정기적금계좌가 해지 되었습니다." << endl;
 					mOwnedSavAcc.erase(mOwnedSavAcc.begin() + i);
+					
 					return;
 				}
 				else {
@@ -185,7 +186,7 @@ void Person::savePer(int perOrder)
 	system(tmp.c_str());
 
 	ofstream os(".\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder));
-	ofstream os2(".\\customer\\" + to_string(perOrder) + "\\" + mPerNum + "p");
+	ofstream os2(".\\customer\\" + to_string(perOrder) + "\\" + to_string(perOrder) + "p");
 	os << mPerNum << '\n';
 	os << mName << '\n';
 	os << loan.getAccNum() << "\n";
@@ -214,7 +215,7 @@ void Person::loadPer(int perOrder, string perNum) {
 	string balance = "0";
 	string perName;
 	string bnkName;
-	string pwd;
+	string pwd = "0";
 	try
 	{
 		ifstream is1(filename);

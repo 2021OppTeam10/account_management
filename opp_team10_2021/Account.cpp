@@ -8,8 +8,16 @@ void Account::deposit(int amount) {
 	this->mBalance += amount;
 }
 
-void Account::withdrawal(int amount) {
-	this->mBalance -= amount;
+bool Account::withdrawal(int amount) {
+	if (mBalance >= amount) {
+		mBalance -= amount;
+		return true;
+	}
+	else
+	{
+		cout << "잔액이 부족합니다" << endl;
+		return false;
+	}
 }
 
 void Account::dailymonth() {

@@ -16,8 +16,8 @@ protected:
     int savingmonth;
 public:
     virtual const std::string getAccountType() = 0;
-    virtual void deposit(int amount);
-    virtual void withdrawal(int amount);
+    virtual void deposit(int amount); // 입금
+    virtual bool withdrawal(int amount); // 출금
     virtual void dailymonth();
     void printAccount();
     const std::string getAccNum();

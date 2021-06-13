@@ -3,7 +3,10 @@
 #include <ctime>
 #include "person.h"
 #include "Word.h"
-
+// 종합테스트
+// 암호화합치고
+// 디자인
+// 처음 안내창, 명령어 예시 작성
 using namespace std;
 
 vector<Person> mainLoad() {
