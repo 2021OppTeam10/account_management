@@ -23,7 +23,7 @@ private:
 	int findFunc();
 	void showManual();
 	void printAllAccount(std::string PerName, std::vector<Person>& cusList);
-	Person whois(std::string accnum, std::vector<Person>& cusList);
+	Person& whois(std::string accnum, std::vector<Person>& cusList);
 	void mainWork(std::vector<Person>& cusList);
 public:
 	void start(std::vector<Person>& cusList);

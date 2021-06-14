@@ -4,17 +4,12 @@ using namespace std;
 
 vector<Person> wordLoad() {
 	cout << "\t\t\t\t\t\t\t\t\t\t\t\t다운로드 처리중..." << endl;
-	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .";
+	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ . > nul";
 	std::locale::global(std::locale("Korean"));
 	if (system(download.c_str()) == 0) {
-		system("cls");
-		cout << "\x1b[A";
-		cout << "\33[2K";
 		cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t-다운로드 완료-" << endl;
 	}
 	else {
-		cout << "\x1b[A";
-		cout << "\33[2K";
 		cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t-다운로드 실패-" << endl;
 		exit(0);
 	}
@@ -321,30 +316,34 @@ void Word::printAllAccount(string PerName, vector<Person>& cusList)
 	}
 }
 
-Person Word::whois(std::string accnum, std::vector<Person>& cusList)
+Person& Word::whois(std::string accnum, std::vector<Person>& cusList)
 {
-	int k = 0;
 	string name;
-	for (auto i : cusList)
+	for (int i = 0; i < cusList.size(); i++)
 	{
 		try
 		{
-			name = cusList[k++].getDepAcc(accnum).getPerName();
+			name = cusList[i].getDepAcc(accnum).getPerName();
 			if (name != "")
 			{
-				break;
+				return cusList[i];
 			}
 		}
 		catch (const invalid_argument& e)
 		{
-			cout << e.what() << endl;
-			throw invalid_argument("존재하지 않는 계좌입니다.");
-		}
-	}
-	for (auto i : cusList) {
-		if (i.getname() == name)
-		{
-			return i;
+			try
+			{
+				name = cusList[i].getSavAcc(accnum).getPerName();
+				if (name != "")
+				{
+					return cusList[i];
+				}
+			}
+			catch (const invalid_argument& e)
+			{
+				cout << e.what() << endl;
+				throw invalid_argument("존재하지 않는 계좌입니다.");
+			}
 		}
 	}
 }
@@ -679,10 +678,9 @@ void Word::start(std::vector<Person>& cusList)
 		{
 			cusList[i].savePer(c++);
 		}
-		string upload = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/";
+		string upload = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/ > nul";
 		std::locale::global(std::locale("Korean"));
 		if (system(upload.c_str()) == 0) {
-			system("cls");
 			cout << "\x1b[A";
 			cout << "\33[2K";
 			cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t-업로드 완료-" << endl;
