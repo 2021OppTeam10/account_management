@@ -5,16 +5,13 @@
 #include <fstream>
 #include <algorithm>
 #include "person.h"
-/*
-* 부족한 정보를 다시 묻는다
-*/
 class Word {
 private:
 	std::string inputString;
 	std::vector<std::string> tokenedString;
 	std::vector<std::string> usedSen;
-	std::vector<std::string> StringToken(std::string inputString);
 	int mAmount = 0;
+	std::vector<std::string> StringToken(std::string inputString);
 	void LoadUsed();
 	bool getInput();
 	const std::string getName();

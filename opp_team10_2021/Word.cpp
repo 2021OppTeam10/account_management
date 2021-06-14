@@ -282,20 +282,25 @@ void Word::showManual()
 	cout << "\t4. 대출관련" << endl;
 	cout << "\t\t1. 상환 : (이름)에게 대출 상환" << endl;
 	cout << "\t\t2. 추가 대출 : (이름)에게 추가 대출" << endl;
+	cout << "\t5. 프로그램 종료 : \"종료\"를 입력하세요" << endl;
 }
 
 void Word::printAllAccount(string PerName, vector<Person>& cusList)
 {
 	vector<DepositAccount> tDep;
 	vector<SavingAccount> tSav;
+	vector<LoanAccount> tLoan;
+
 	int result1 = 0;
 	int result2 = 0;
+	int result3 = 0;
 	cout << "-------------계좌 조회-------------" << endl;
 	cout << "조회하신 고객의 이름 : " << PerName << endl;
 	for (auto i : cusList) {
 		if (PerName == i.getname()) {
 			tDep = i.getDepAcc();
 			tSav = i.getSavAcc();
+
 			for (int j = 0; j < tDep.size(); j++) {
 				tDep[j].printAccount();
 				result1++;
@@ -306,6 +311,12 @@ void Word::printAllAccount(string PerName, vector<Person>& cusList)
 				result2++;
 			}
 			cout << "총 보유 적금 계좌수는 " << result2 << "개 입니다." << endl;
+			for (int j = 0; j < tLoan.size(); j++)
+			{
+				tLoan[j].printAccount();
+				result3++;
+			}
+			cout << "총 보유 대출 계좌수는 " << result3 << "개 입니다." << endl;
 		}
 	}
 }
@@ -519,9 +530,9 @@ void Word::mainWork(std::vector<Person>& cusList) {
 		if (funcChoiced == 0) // 상환
 		{
 			name.erase(name.begin());
-			for (auto i : cusList)
+			for (int i = 0; i < cusList.size(); i++)
 			{
-				if (i.getname() == name) {
+				if (cusList[i].getname() == name) {
 					string dest;
 					int amt;
 					unsigned tp;
@@ -534,8 +545,8 @@ void Word::mainWork(std::vector<Person>& cusList) {
 					cout << "출금하실 예금 비밀번호를 입력해주세요" << endl;
 					cin >> tp;
 					cin.ignore();
-					if (i.getLoan().isCorrect(tp)) {
-						i.getLoan().Repayment(i.getDepAcc(dest), amount);
+					if (cusList[i].getLoan().isCorrect(tp)) {
+						cusList[i].getLoan().Repayment(cusList[i].getDepAcc(dest), amount);
 						saveWord();
 					}
 					else
@@ -550,9 +561,9 @@ void Word::mainWork(std::vector<Person>& cusList) {
 		else if (funcChoiced == 1) // 추가
 		{
 			name.erase(name.begin());
-			for (auto i : cusList)
+			for (int i = 0; i < cusList.size(); i++)
 			{
-				if (i.getname() == name) {
+				if (cusList[i].getname() == name) {
 					int amt;
 					cout << "얼마를 빌리실 건가요?" << endl;
 					cin >> amt;
@@ -565,11 +576,12 @@ void Word::mainWork(std::vector<Person>& cusList) {
 					cin.ignore();
 					cout << "비밀번호를 입력하세요" << endl;
 					cin >> tp;
-					if (i.getLoan().isCorrect(tp)) {
+					cin.ignore();
+					if (cusList[i].getLoan().isCorrect(tp)) {
 						saveWord();
-						i.getLoan().addLoan(name, tin2, amt);
+						cusList[i].getLoan().addLoan(name, tin2, amt);
 						cout << amt << "원 대출 처리 완료" << endl;
-						i.getLoan().printAccount();
+						cusList[i].getLoan().printAccount();
 						return;
 					}
 					else
