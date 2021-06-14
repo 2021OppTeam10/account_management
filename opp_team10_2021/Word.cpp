@@ -5,9 +5,9 @@ using namespace std;
 vector<Person> wordLoad() {
 	cout << "\t\t\t\t\t\t\t\t\t\t\t\t다운로드 처리중..." << endl;
 	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ .";
-	string cmd = "start /wait /min " + download;
 	std::locale::global(std::locale("Korean"));
-	if (system(cmd.c_str()) == 0) {
+	if (system(download.c_str()) == 0) {
+		system("cls");
 		cout << "\x1b[A";
 		cout << "\33[2K";
 		cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t-다운로드 완료-" << endl;
@@ -275,7 +275,7 @@ void Word::showManual()
 	cout << "\t\t3. 송금 : (계좌번호)번호로 (금액)원 송금해줘" << endl;
 	cout << "\t2. 계좌관련" << endl;
 	cout << "\t\t1. 추가 : (이름)에게 계좌를 추가해줘" << endl;
-	cout << "\t\t2. 삭제 : (이름)에게 계좌를 삭제해줘" << endl;
+	cout << "\t\t2. 삭제 : (계좌번호)번호 계좌를 삭제해줘" << endl;
 	cout << "\t\t3. 조회 : (이름)을/를 계좌 조회해줘" << endl;
 	cout << "\t3. 고객관련" << endl;
 	cout << "\t\t1. 신규 고객 등록 : (이름)을/를 새로 등록해줘" << endl;
@@ -680,9 +680,9 @@ void Word::start(std::vector<Person>& cusList)
 			cusList[i].savePer(c++);
 		}
 		string upload = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i .\\id_rsa -P 8080 .\\customer\\ cppproj@1.225.217.57:/home/cppproj/";
-		string cmd = "start /min /wait " + upload;
 		std::locale::global(std::locale("Korean"));
-		if (system(cmd.c_str()) == 0) {
+		if (system(upload.c_str()) == 0) {
+			system("cls");
 			cout << "\x1b[A";
 			cout << "\33[2K";
 			cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t-업로드 완료-" << endl;
