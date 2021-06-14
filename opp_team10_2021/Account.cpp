@@ -30,7 +30,7 @@ void Account::dailymonth() {
 
 void Account::printAccount() {
 	cout << "-----------------------------< ACCOUNT INFO >-----------------------------" << endl;
-	cout << "계좌 종류 : " << this->getAccountType() << endl;
+	cout << "계좌 종류 : " << getAccountType() << endl;
 	cout << "이름 : " << mPerName << endl;
 	cout << "은행명 : " << mBnkName << endl;
 	cout << "계좌번호 : " << mAccNum << endl;

@@ -99,7 +99,7 @@ const std::string Word::getName() {
 		{
 			mAmount = stoi(i.substr(0, nPos));
 		}
-		 nPos = i.find("번호");
+		nPos = i.find("번호");
 		if (nPos != string::npos && nPos != 0 && nPos != -1)
 		{
 			result = '0';
@@ -137,7 +137,7 @@ vector<string> Word::StringToken(string inputString) {
 	{
 		spacePos = inputString.find(' ');
 		if (spacePos == -1)	spacePos = inputString.size();
-		result.push_back(inputString.substr(0, spacePos+1));
+		result.push_back(inputString.substr(0, spacePos + 1));
 		inputString.erase(0, spacePos + 1);
 	}
 	return result;
@@ -183,39 +183,39 @@ void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector
 		{
 			if (cusList[i].getDepAcc()[j].getAccNum() == accNum)
 			{
-				cout << "계좌 비밀번호를 입력해주세요" << endl;
-				cin >> tp;
-				cin.ignore();
-				if (cusList[i].getDepAcc()[j].isCorrect(tp))
+				switch (funcChoiced)
 				{
-					switch (funcChoiced)
+				case 0:
+					cusList[i].getDepAcc()[j].deposit(amount);
+					cout << accNum << "에게 " << amount << "원 입금처리" << endl;
+					break;
+				case 1:
+					if (cusList[i].getDepAcc()[j].withdrawal(amount))
 					{
-					case 0:
-						cusList[i].getDepAcc()[j].deposit(amount);
-						cout << accNum << "에게 " << amount << "원 입금처리" << endl;
+						cout << accNum << "에게 " << amount << "원 출금처리" << endl;
 						break;
-					case 1:
-						if (cusList[i].getDepAcc()[j].withdrawal(amount))
-						{
-							cout << accNum << "에게 " << amount << "원 출금처리" << endl;
-							break;
-						}
-						else
-						{
-							break;
-						}
-					case 2:
-						DepositAccount tD("NULL", "NULL", 0);
-						string source;
-						cout << "돈을 출금해서 보내실 계좌를 입력하세요" << endl;
-						cin >> source;
-						cin.ignore();
+					}
+					else
+					{
+						break;
+					}
+				case 2:
+					int tD;
+					string source;
+					cout << "돈을 출금해서 보내실 계좌를 입력하세요" << endl;
+					cin >> source;
+					cin.ignore();
+					cout << "계좌 비밀번호를 입력해주세요" << endl;
+					cin >> tp;
+					cin.ignore();
+					if (cusList[i].getDepAcc()[j].isCorrect(tp))
+					{
 						bool isFind = false;
-						for (auto k : cusList)
+						for (int k = 0; k < cusList.size(); k++)
 						{
-							for (auto s : k.getDepAcc())
+							for (int s = 0; s < cusList[i].getDepAcc().size(); s++)
 							{
-								if (s.getAccNum() == source)
+								if (cusList[i].getDepAcc()[s].getAccNum() == source)
 								{
 									tD = s;
 									isFind++;
@@ -227,11 +227,11 @@ void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector
 								break;
 							}
 						}
-						if (tD.getPerName() != "NULL")
+						if (cusList[i].getDepAcc()[tD].getPerName() != "NULL")
 						{
-							if (tD.withdrawal(amount))
+							if (cusList[i].getDepAcc()[tD].withdrawal(amount))
 							{
-								cout << accNum << "에게 " << amount << "원 출금처리" << endl;
+								cout << source << "에서 " << amount << "원 출금처리" << endl;
 								cusList[i].getDepAcc()[j].deposit(amount);
 								cout << accNum << "에게 " << amount << "원 송금처리" << endl;
 								break;
@@ -246,13 +246,13 @@ void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector
 							break;
 						}
 					}
+					else
+					{
+						cout << "비밀번호 입력 오류" << endl;
+						break;
+					}
 				}
-				else
-				{
-					cout << "비밀번호 입력 오류" << endl;
-					break;
-				}
-				break;
+			break;
 			}
 			for (auto j : cusList[i].getSavAcc())
 			{
@@ -302,7 +302,7 @@ void Word::printAllAccount(string PerName, vector<Person>& cusList)
 			}
 			cout << "총 보유 예금 계좌수는 " << result1 << "개 입니다." << endl;
 			for (int j = 0; j < tSav.size(); j++) {
-				tDep[j].printAccount();
+				tSav[j].printAccount();
 				result2++;
 			}
 			cout << "총 보유 적금 계좌수는 " << result2 << "개 입니다." << endl;
@@ -373,7 +373,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 		if (funcChoiced == 0 && name[0] == '0') // 삭제
 		{
 			name.erase(name.begin());
-			try { 
+			try {
 				whois(name, cusList).rmAcc(name);
 				saveWord();
 			}

@@ -308,10 +308,12 @@ bool Person::loadAcc(int perOrder, int accOrder) {
 		if (sourceAcc == "") {
 			DepositAccount tmp(accNum, balance, perName, bnkName, pwd);
 			mOwnedDepAcc.push_back(tmp);
+			tmp.~tmp();
 		}
 		else {
 			SavingAccount tmp(accNum, sourceAcc, balance, perName, bnkName, pwd);
 			mOwnedSavAcc.push_back(tmp);
+			tmp.~tmp();
 		}
 		return true;
 	}
