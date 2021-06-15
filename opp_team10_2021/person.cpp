@@ -317,11 +317,11 @@ string Person::Encry(unsigned int Pwd) {
 }
 
 unsigned int Person::Decry(string encrypt) {
-	char tmp[10];
+	char tmp[100];
 	char* ptr;
 	strcpy(tmp, encrypt.c_str());
 
-	char decrypt[10];
+	char decrypt[100];
 	ZeroMemory(decrypt, sizeof(decrypt));
 	Account::Decrypt(tmp, decrypt, sizeof(decrypt));
 	auto decryint = strtol(decrypt, &ptr, 10);
