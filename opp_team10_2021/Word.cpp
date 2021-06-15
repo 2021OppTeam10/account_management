@@ -2,38 +2,6 @@
 
 using namespace std;
 
-vector<Person> wordLoad() {
-	cout << "\t\t\t\t\t\t\t\t\t\t\t\t다운로드 처리중..." << endl;
-	string download = "scp -C -o ServerAliveInterval=2 -o ServerAliveCountMax=3 -r -o StrictHostKeyChecking=no -i ./id_rsa -P 8080 cppproj@1.225.217.57:/home/cppproj/customer/ . > nul";
-	std::locale::global(std::locale("Korean"));
-	if (system(download.c_str()) == 0) {
-		cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t-다운로드 완료-" << endl;
-	}
-	else {
-		cout << "\t\t\t\t\t\t\t\t\t\t\t\t\t-다운로드 실패-" << endl;
-		exit(0);
-	}
-	vector<Person> result;
-	string name;
-	string num;
-	int count = 0;
-	while (true)
-	{
-		ifstream is(".\\customer\\" + to_string(count) + "\\" + to_string(count));
-		if (!is.is_open()) {
-			break;
-		}
-		getline(is, num);
-		getline(is, name);
-		Person tmp(name, num);
-		tmp.loadPer(count, num);
-		result.push_back(tmp);
-		count++;
-		is.close();
-	}
-	return result;
-}
-
 int Word::findFunc() {
 	vector<string> funcList = { "입금", "출금", "송금", "계좌", "새로", "대출" };
 	int funcChoiced = 99;
@@ -247,7 +215,7 @@ void Word::switFunc(std::string accNum, int funcChoiced, int amount, std::vector
 						break;
 					}
 				}
-			break;
+				break;
 			}
 			for (auto j : cusList[i].getSavAcc())
 			{
@@ -321,29 +289,19 @@ Person& Word::whois(std::string accnum, std::vector<Person>& cusList)
 	string name;
 	for (int i = 0; i < cusList.size(); i++)
 	{
-		try
-		{
-			name = cusList[i].getDepAcc(accnum).getPerName();
-			if (name != "")
+		try {
+			if (accnum == cusList[i].getDepAcc(accnum).getAccNum())
+			{
+				return cusList[i];
+			}
+			if (accnum == cusList[i].getSavAcc(accnum).getAccNum())
 			{
 				return cusList[i];
 			}
 		}
-		catch (const invalid_argument& e)
+		catch (...)
 		{
-			try
-			{
-				name = cusList[i].getSavAcc(accnum).getPerName();
-				if (name != "")
-				{
-					return cusList[i];
-				}
-			}
-			catch (const invalid_argument& e)
-			{
-				cout << e.what() << endl;
-				throw invalid_argument("존재하지 않는 계좌입니다.");
-			}
+			throw invalid_argument("존재하지 않는 계좌입니다.");
 		}
 	}
 }
@@ -362,7 +320,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 		else
 		{
 			name.erase(name.begin());
-			saveWord();
+			addUsedSen(inputString);
 			switFunc(name, funcChoiced, amount, cusList);
 		}
 	}
@@ -385,7 +343,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 			name.erase(name.begin());
 			try {
 				whois(name, cusList).rmAcc(name);
-				saveWord();
+				addUsedSen(inputString);
 			}
 			catch (const invalid_argument& e) {
 				cout << e.what() << endl;
@@ -420,7 +378,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 							isEnd = true;
 							cout << "예금 계좌가 추가되었습니다!" << endl;
 							printAllAccount(name, cusList);
-							saveWord();
+							addUsedSen(inputString);
 						}
 						else if (tin.find("적금") != string::npos)
 						{
@@ -433,7 +391,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 							isEnd = true;
 							cout << "적금 계좌가 추가되었습니다!" << endl;
 							printAllAccount(name, cusList);
-							saveWord();
+							addUsedSen(inputString);
 						}
 						else
 						{
@@ -501,7 +459,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 		string tmpSS = inputString;
 		if (tmpSS == "네")
 		{
-			saveWord();
+			addUsedSen(inputString);
 			Person tmp(name);
 			cusList.push_back(tmp);
 			cout << "추가 완료." << endl;
@@ -546,7 +504,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 					cin.ignore();
 					if (cusList[i].getLoan().isCorrect(tp)) {
 						cusList[i].getLoan().Repayment(cusList[i].getDepAcc(dest), amount);
-						saveWord();
+						addUsedSen(inputString);
 					}
 					else
 					{
@@ -577,7 +535,7 @@ void Word::mainWork(std::vector<Person>& cusList) {
 					cin >> tp;
 					cin.ignore();
 					if (cusList[i].getLoan().isCorrect(tp)) {
-						saveWord();
+						addUsedSen(inputString);
 						cusList[i].getLoan().addLoan(name, tin2, amt);
 						cout << amt << "원 대출 처리 완료" << endl;
 						cusList[i].getLoan().printAccount();
@@ -672,6 +630,7 @@ void Word::start(std::vector<Person>& cusList)
 	{
 		cusList = wordLoad();
 		mainWork(cusList);
+		saveWord();
 		cout << "\t\t\t\t\t\t\t\t\t\t\t\t업로드 처리중..." << endl;
 		c = 0;
 		for (int i = 0; i < cusList.size(); i++)
